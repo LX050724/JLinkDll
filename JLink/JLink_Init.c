@@ -34,8 +34,8 @@ static DL_HANDEL handel;
 void *JLinkDLL_getSym(const char *sym) {
     void *p = DL_SYM(handel, sym);
     if (p) {
-//        printf("Loaded '%s' at %p Relative address %llX\n",
-//               sym, p, ((uint64_t) p - (uint64_t) handel));
+        printf("Loaded '%s' at %p, Relative address %llX\n",
+               sym, p, ((uint64_t) p - (uint64_t) handel));
     } else {
         printf("Error: load '%s' failed\n", sym);
     }

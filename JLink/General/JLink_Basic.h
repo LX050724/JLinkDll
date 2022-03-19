@@ -84,8 +84,8 @@ char JLINKARM_Halt(void);
 
 /**
  * This function checks whether the JTAG connection has been opened.
- * @retval if not connected
- * @retval if connected
+ * @retval 0 if not connected
+ * @retval 1 if connected
  */
 char JLINKARM_IsConnected(void);
 

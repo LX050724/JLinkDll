@@ -7,7 +7,7 @@
 #ifndef JLINKDLL_JLINK_RESET_H
 #define JLINKDLL_JLINK_RESET_H
 
-#include <stdint.h>
+#include <JLink/JLink_Define.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -68,43 +68,6 @@ int JLINKARM_SetInitRegsOnReset(int OnOff);
  * @param ms Delay after reset in milliseconds.
  */
 void JLINKARM_SetResetDelay(int ms);
-
-/**
- * Refer to the J-Link / J-Trace User Guide,
- * section Reset strategies in chapter Working with J-Link and J-Trace for detailed
- * information about the different reset
- * strategies. Default value is JLINKARM_RESET_TYPE_NORMAL.
- *
- * Refer to the J-Link / J-Trace User Guide,
- * section Reset strategies in chapter Working with J-Link and J-Trace for detailed
- * information about the different reset
- * strategies. Default value is JLINKARM_CM3_RESET_TYPE_NORMAL.
- *
- * @bug TODO 值不确定
- */
-typedef enum {
-    // ARM7/ ARM9
-    JLINKARM_RESET_TYPE_NORMAL,
-    JLINKARM_RESET_TYPE_BP0,
-    JLINKARM_RESET_TYPE_ADI,
-    JLINKARM_RESET_TYPE_NO_RESET,
-    JLINKARM_RESET_TYPE_HALT_WP,
-    JLINKARM_RESET_TYPE_HALT_DBGRQ,
-    JLINKARM_RESET_TYPE_SOFT,
-    JLINKARM_RESET_TYPE_SAM7,
-
-    // Cortex-M specifics
-    JLINKARM_CM3_RESET_TYPE_NORMAL,
-    JLINKARM_CM3_RESET_TYPE_CORE,
-    JLINKARM_CM3_RESET_TYPE_RESETPIN,
-    JLINKARM_CM3_RESET_TYPE_CONNECT_UNDER_RESET,
-    JLINKARM_CM3_RESET_TYPE_HALT_AFTER_BTL,
-    JLINKARM_CM3_RESET_TYPE_HALT_BEFORE_BTL,
-    JLINKARM_CM3_RESET_TYPE_KINETIS,
-    JLINKARM_CM3_RESET_TYPE_ADI_HALT_AFTER_KERNEL,
-    JLINKARM_CM3_RESET_TYPE_LPC1200,
-    JLINKARM_CM3_RESET_TYPE_S3FN60D,
-} JLINKARM_RESET_TYPE;
 
 /**
  * Defines the reset strategy.

@@ -43,7 +43,7 @@ int JLINKARM_EMU_FILE_Read(const char *sFile, uint8_t *pData, uint32_t Offset, u
  * On emulators which support file I/O this function writes a specific file.
  * Check if a specific emulator supports file I/O by calling {@link JLINKARM_GetEmuCaps}.
  * Currently, only Flasher models support file I/O.
- * @retval Number of bytes written succesfully.
+ * @return Number of bytes written succesfully.
  * @retval <0 Error
  */
 int JLINKARM_EMU_FILE_Write(const char *sFile, const uint8_t *pData, uint32_t Offset, uint32_t NumBytes);

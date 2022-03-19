@@ -7,81 +7,10 @@
 #define JLINKDLL_JLINK_CONFIGURATION_H
 
 #include <stdint.h>
+#include <JLink/JLink_Define.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-
-typedef struct {
-    /**
-     * This is the serial number reported in the
-     * discovery process. For J-Links which are
-     * connected via USB this is the USB serial
-     * number which is
-     *
-     * 1. the “true serial number” for newer JLinks
-     *
-     * 2. 123456 for older J-Links.
-     *
-     * For J-Links which are connected via TCP/IP
-     * this is always the “true serial number”.
-     */
-    uint32_t SerialNumber;
-
-    /**
-     * Connection type of the J-Link. Can be
-     * {@link JLINKARM_HOSTIF_USB} or {@link JLINKARM_HOSTIF_IP}.
-     */
-    uint32_t Connection;
-
-    /**
-     * USB Addr. Default is 0, values of 0..3 are
-     * permitted. Only filled if for J-Links connected via USB. For J-Links which are connected via TCP/IP this field is zeroed.
-     */
-    uint32_t USBAddr;
-
-    /**
-     * IP Addr. of the connected emulator in case
-     * the emulator is connected via IP. For IP4
-     * (current version), only the first 4 bytes are
-     * used. The remaining bytes are zeroed.
-     */
-    uint8_t aIPAddr[16];
-
-    /**
-     * J-Link via IP only: Time period [ms] after
-     * which the UDP discover answer from emulator was received
-     * (-1 if emulator is connected over USB)
-     */
-    int Time;
-
-    /**
-     * J-Link via IP only: Time period [us] after
-     * which the UDP discover answer from emulator was received
-     * (-1 if emulator is connected over USB)
-     */
-    uint64_t Time_us;
-
-    uint32_t HWVersion;              //!<@brief J-Link via IP only: Hardware version of JLink
-    uint8_t abMACAddr;               //!<@brief J-Link via IP only: MAC Addr
-    char acProduct[32];              //!<@brief J-Link via IP only: Product name
-    char acNickName[32];             //!<@brief J-Link via IP only: Nickname of J-Link
-    char acFWString[112];            //!<@brief J-Link via IP only: Firmware string of JLink
-    char IsDHCPAssignedIP;           //!<@brief J-Link via IP only: Is J-Link configured for IP address reception via DHCP?
-    char IsDHCPAssignedIPIsValid;    //!<@brief J-Link via IP only
-    char NumIPConnections;           //!<@brief J-Link via IP only: Number of IP connections which are currently established to this J-Link
-    char NumIPConnectionsIsValid;    //!<@brief J-Link via IP only
-    char aPadding[34];               //!<@brief Dummy bytes to pad the structure size to 264 bytes. Reserved for future use.
-} JLINKARM_EMU_CONNECT_INFO;
-
-/**
-* TODO
-* @deprecated 弃用结构体
-* @bug 结构未知
-*/
-typedef struct {
-    char a[sizeof(JLINKARM_EMU_CONNECT_INFO)];
-} JLINKARM_EMU_INFO;
 
 /**
  * @param sTitle Title of the unsecure dialog. Can be shown by handler function.
@@ -121,7 +50,7 @@ int JLINK_EMU_AddLicense(const char *sLicense);
 /**
  * Erase all custom licenses from the connected J-Link’s.
  * @retval 0 O.K.
- * @retval < 0 Error.
+ * @retval <0 Error.
  */
 int JLINK_EMU_EraseLicenses(void);
 
@@ -132,8 +61,8 @@ int JLINK_EMU_EraseLicenses(void);
  *          “Store custom licenses on J-Link” on page 178.
  * @param pBuffer Pointer to buffer to store the licenses into.
  * @param NumBytes Number of bytes available in the buffer.
- * @retval >= 0 O.K., Number of bytes written into buffer.
- * @retval < 0 Error.
+ * @retval >=0 O.K., Number of bytes written into buffer.
+ * @retval <0 Error.
  */
 int JLINK_EMU_GetLicenses(char *pBuffer, uint32_t NumBytes);
 
@@ -182,8 +111,8 @@ enum {
  *                      to hold the information for each emulator.
  * @param MaxInfos Specifies the maximum number of emulators for which information can be stored
  *                 in the array pointed to by paConnectInfo .
- * @retval >= 0 O.K., total number of emulators which have been found.
- * @retval < 0 Error.
+ * @retval >=0 O.K., total number of emulators which have been found.
+ * @retval <0 Error.
  */
 int JLINKARM_EMU_GetList(int HostIFs, JLINKARM_EMU_CONNECT_INFO *paConnectInfo, int MaxInfos);
 
@@ -192,7 +121,7 @@ int JLINKARM_EMU_GetList(int HostIFs, JLINKARM_EMU_CONNECT_INFO *paConnectInfo, 
  * Get USB enumeration specific information about a specific J-Link such as serial number
  * used by J-Link to enumerate on USB.
  */
-void JLINKARM_EMU_GetDeviceInfo(uint32_t iEmu, JLINKARM_EMU_INFO *pInfo);
+//void JLINKARM_EMU_GetDeviceInfo(uint32_t iEmu, JLINKARM_EMU_INFO *pInfo);
 
 /**
  * This function allows the user to select a specific J-Link he wants to connect to by passing
@@ -221,8 +150,8 @@ void JLINKARM_EMU_GetDeviceInfo(uint32_t iEmu, JLINKARM_EMU_INFO *pInfo);
  * JLINKARM_Open();
  * @endcode
  * @param SerialNo Serial number of the J-Link which shall be selected.
- * @retval >= 0 Index of emulator with given serial number (0 if only one emulator is connected to the PC)
- * @retval < 0 Error, no emulator with given serial number found
+ * @retval >=0 Index of emulator with given serial number (0 if only one emulator is connected to the PC)
+ * @retval <0 Error, no emulator with given serial number found
  */
 int JLINKARM_EMU_SelectByUSBSN(uint32_t SerialNo);
 
@@ -232,8 +161,8 @@ int JLINKARM_EMU_SelectByUSBSN(uint32_t SerialNo);
  * @param pIPAddr Buffer which holds the IP address of the selected emulator.
  * @param BufferSize Size of the buffer which pIPAddr is pointing to.
  * @param pPort Port number of the selected connection.
- * @retval < 0 No emulator selected
- * @retval >= 0 Ok
+ * @retval <0 No emulator selected
+ * @retval >=0 Ok
  */
 int JLINKARM_EMU_SelectIP(char *pIPAddr, int BufferSize, uint16_t *pPort);
 
@@ -280,8 +209,8 @@ char JLINKARM_SelectUSB(int Port);
  * @note This dialog is only available for certain devices. It is not available for all ones.
  * @note This function should be called after {@link JLINK_Open} but before {@link JLINK_Connect}.
  * @param pfHook Pointer to unsecure dialog handling type JLINK_UNSECURE_DIALOG_CB_FUNC.
- * @retval ≥ 0 O.K.
- * @retval < 0 Error
+ * @retval >=0 O.K.
+ * @retval <0 Error
  */
 int JLINK_SetHookUnsecureDialog(JLINK_UNSECURE_DIALOG_CB_FUNC *pfHook);
 
