@@ -13,8 +13,8 @@ int main() {
 //    const char *err_msg = JLINKARM_Open();
 //    if (err_msg) printf("Error: %s\n", err_msg);
 
-    for (int i = 0; i < ARM_NUM_REGS; i++)
-        printf("%-2d, %s\n", i, JLINKARM_GetRegisterName(i));
+//    for (int i = 0; i < ARM_NUM_REGS; i++)
+//        printf("%-2d, %s\n", i, JLINKARM_GetRegisterName(i));
 
     JLinkDLL_DeInit();
     return 0;

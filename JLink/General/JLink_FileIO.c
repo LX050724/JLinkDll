@@ -5,10 +5,10 @@
 #include "JLink_FileIO.h"
 #include "JLink/JLink_Init.h"
 
-int (*P_JLINKARM_EMU_FILE_Delete)(const char *sFile);
-int (*P_JLINKARM_EMU_FILE_GetSize)(const char *sFile);
-int (*P_JLINKARM_EMU_FILE_Read)(const char *sFile, uint8_t *pData, uint32_t Offset, uint32_t NumBytes);
-int (*P_JLINKARM_EMU_FILE_Write)(const char *sFile, const uint8_t *pData, uint32_t Offset, uint32_t NumBytes);
+static int (*P_JLINKARM_EMU_FILE_Delete)(const char *sFile);
+static int (*P_JLINKARM_EMU_FILE_GetSize)(const char *sFile);
+static int (*P_JLINKARM_EMU_FILE_Read)(const char *sFile, uint8_t *pData, uint32_t Offset, uint32_t NumBytes);
+static int (*P_JLINKARM_EMU_FILE_Write)(const char *sFile, const uint8_t *pData, uint32_t Offset, uint32_t NumBytes);
 
 int JLINK_GERENAL_FILE_IO_Init() {
     P_JLINKARM_EMU_FILE_Delete = JLinkDLL_getSym("JLINKARM_EMU_FILE_Delete");

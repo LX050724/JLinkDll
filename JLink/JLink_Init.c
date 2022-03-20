@@ -30,10 +30,12 @@ int JLINK_##MODULE##_Init(); \
 if (!JLINK_##MODULE##_Init()) return 0;
 
 static DL_HANDEL handel;
+static uint32_t fun_num;
 
 void *JLinkDLL_getSym(const char *sym) {
     void *p = DL_SYM(handel, sym);
     if (p) {
+        fun_num++;
         printf("Loaded '%s' at %p, Relative address %llX\n",
                sym, p, ((uint64_t) p - (uint64_t) handel));
     } else {
@@ -49,12 +51,18 @@ int JLinkDLL_Init(const char *dl_path) {
         }
         handel = DL_OPEN(dl_path);
         if (handel == NULL) return 0;
-//        printf("Loaded DLL '%s' at %p\n", dl_path, handel);
+        printf("Loaded DLL '%s' at %p\n", dl_path, handel);
         INIT_MODULE(RTT)
         INIT_MODULE(General)
         INIT_MODULE(JTAG)
         INIT_MODULE(SWO)
+        INIT_MODULE(HSS)
+        INIT_MODULE(SPI)
+        INIT_MODULE(STRACE)
+        INIT_MODULE(POWERTRACE)
+        INIT_MODULE(SWD)
     }
+    printf("%d functions are loaded\n", fun_num);
     return 1;
 }
 

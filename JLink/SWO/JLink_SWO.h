@@ -59,7 +59,7 @@ int JLINKARM_SWO_EnableTarget(uint32_t CPUSpeed, uint32_t SWOSpeed, int Mode, ui
  *                    the list will start with Speeds ≤ 3000000.
  *                    Useful to verify if a manually selected speed is a compatible one or to
  *                    get the closest compatible speed to the defined one
- * @param paSWOSpeed Pointer to an array of U32, used to store the list of compatible speeds.
+ * @param paSWOSpeed Pointer to an array of uint32_t, used to store the list of compatible speeds.
  * @param NumEntries Determines number of compatible speeds that shall be stored in the list buffer.
  * @retval >=0 O.K., number of entries (compatible speeds) stored in the given list buffer.
  * @retval <0 Error
@@ -72,8 +72,8 @@ int JLINKARM_SWO_GetCompatibleSpeeds(uint32_t CPUSpeed, uint32_t MaxSWOSpeed,
  * from the SWO buffer after reading. The application have to use the {@link JLINKARM_SWO_Control}
  * function with JLINKARM_SWO_CMD_FLUSH to remove the data from the buffer.
  * @code
- * U8 abData[0x100];
- * U32 NumBytes;
+ * uint8_t abData[0x100];
+ * uint32_t NumBytes;
  * //
  * // Read and flush data
  * //
@@ -84,7 +84,7 @@ int JLINKARM_SWO_GetCompatibleSpeeds(uint32_t CPUSpeed, uint32_t MaxSWOSpeed,
  * @endcode
  * @param pData Buffer to be filled with the requested data.
  * @param Offset Offset of first byte to be retrieved from the SWO buffer.
- * @param pNumBytes Pointer to a U32 value containing the number of bytes to be read
+ * @param pNumBytes Pointer to a uint32_t value containing the number of bytes to be read
  *                  from the SWO buffer. This value will be filled with the number of
  *                  bytes that could be read from the SWO buffer.
  */

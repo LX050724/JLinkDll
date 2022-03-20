@@ -158,8 +158,8 @@ int JLINKARM_GetNumWPUnits(void);
  * buffer. These indices can then be used to read the register content via {@link JLINKARM_ReadRegs}.
  * @note This function may only be called after a successful call to {@link JLINKARM_Connect}.
  * @code
- * U32 aRegIndex[JLINKARM_MAX_NUM_CPU_REGS];
- * U32 aRegData[JLINKARM_MAX_NUM_CPU_REGS];
+ * uint32_t aRegIndex[JLINKARM_MAX_NUM_CPU_REGS];
+ * uint32_t aRegData[JLINKARM_MAX_NUM_CPU_REGS];
  * int NumRegs;
  * int i;
  * NumRegs = JLINKARM_GetRegisterList(aRegIndex, JLINKARM_MAX_NUM_CPU_REGS);
@@ -168,7 +168,7 @@ int JLINKARM_GetNumWPUnits(void);
  *     printf("%s = %.8X\n", JLINKARM_GetRegisterName(aRegIndex[i]), aRegData[i]);
  * }
  * @endcode
- * @param paList Pointer to buffer of U32 items which is used to store the register indices.
+ * @param paList Pointer to buffer of uint32_t items which is used to store the register indices.
  * @param MaxNumItems Maximum number of indices that can be stored in paList .
  * @retval >=0 Number of indices that have been stored in paList .
  */
@@ -281,7 +281,7 @@ char JLINKARM_SimulateInstruction(uint32_t Inst);
  *       ICE-breaker registers.
  * @note The use of {@note JLINKARM_SetBPEx} is recommended instead
  * @code
- * U32 Addr;
+ * uint32_t Addr;
  * Addr = 0x00200000;
  * JLINKARM_SetBP(1, Addr);
  * @endcode

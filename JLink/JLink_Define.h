@@ -12,6 +12,13 @@
 extern "C" {
 #endif
 
+//typedef uint8_t U8;
+//typedef uint16_t U16;
+//typedef uint32_t U32;
+//typedef uint64_t U64;
+
+typedef void (*JLINKARM_LOG)(const char *sError);
+
 /**
  * @name JLINK_CORE_DEFINE
  * @brief JLink内核代码表
@@ -97,7 +104,7 @@ extern "C" {
 #define JLINK_ERR_TIF_STATUS_ERROR             //!<@brief TODO 值未知
 
 
-typedef struct {
+typedef struct AREA_INFO {
     uint32_t Addr;
     uint32_t Size;
 } RAM_AREA_INFO, FLASH_AREA_INFO;
@@ -125,7 +132,7 @@ typedef struct {
 /**
  * TODO 类型不确定
  */
-typedef struct {
+typedef struct JLINKARM_DATA_EVENT {
     uint32_t SizeOfStruct;
     uint32_t Type;
     uint32_t Addr;
@@ -201,17 +208,30 @@ typedef enum {
     ARM_NUM_REGS,
 } ARM_REG;
 
-typedef struct {
-    uint32_t SizeOfStruct;  //!<@brief Size of this structure. This element has to be filled in before calling the API function.
-    uint32_t Handle;        //!<@brief Breakpoint handle.
-    uint32_t Addr;          //!<@brief Address where breakpoint has been set.
-    uint32_t Type;          //!<@brief Type flags which has been specified when the breakpoint was set.
-    uint32_t ImpFlags;      //!<@brief Describes the current implementation of the breakpoint. For more information
-    //!<       please refer to Implementation flags below.
-    uint32_t UseCnt;        //!<@brief Describes how often the breakpoint is set at the same address.
+typedef struct JLINKARM_BP_INFO {
+    /** Size of this structure. This element has to be filled in before calling the API function. */
+    uint32_t SizeOfStruct;
+
+    /** Breakpoint handle. */
+    uint32_t Handle;
+
+    /** Address where breakpoint has been set. */
+    uint32_t Addr;
+
+    /** Type flags which has been specified when the breakpoint was set. */
+    uint32_t Type;
+
+    /**
+     * Describes the current implementation of the breakpoint. For more information
+     * please refer to Implementation flags below.
+     */
+    uint32_t ImpFlags;
+
+    /** Describes how often the breakpoint is set at the same address. */
+    uint32_t UseCnt;
 } JLINKARM_BP_INFO;
 
-typedef struct {
+typedef struct JLINKARM_WP_INFO {
     uint32_t SizeOfStruct;  //!<@brief Size of the struct
     uint32_t Handle;        //!<@brief Watchpoint handle.
     uint32_t Addr;          //!<@brief Contains the address on which watchpoint has been set.
@@ -226,16 +246,32 @@ typedef struct {
 /**
  * TODO 值未知
  */
-typedef enum {
-    JLINKARM_BP_TYPE_ARM,       //!<@brief Specifies a breakpoint in ARM mode. (Can not be used with JLINKARM_BP_TYPE_THUMB).
-    JLINKARM_BP_TYPE_THUMB,     //!<@brief Specifies a breakpoint in THUMB mode. (Can not be used with JLINKARM_BP_TYPE_ARM).
-    JLINKARM_BP_IMP_ANY,        //!<@brief Allows any type of implementation, software or any hardware unit.
-    //!< This is the same as specifying JLINKARM_BP_IMP_SW | JLINKARM_BP_IMP_HW and is
-    //!< also default if no Implementation flag is given.
-    JLINKARM_BP_IMP_SW,         //!<@brief Allows implementation as software breakpoint if the address is located in RAM or Flash.
-    JLINKARM_BP_IMP_SW_RAM,     //!<@brief Allows implementation as software breakpoint if the address is located in RAM.
-    JLINKARM_BP_IMP_SW_FLASH,   //!<@brief Allows implementation as software breakpoint if the address is located in Flash.
-    JLINKARM_BP_IMP_HW,         //!<@brief Allows using of any hardware breakpoint unit.
+typedef enum JLINKARM_BP_TYPE {
+
+    /** Specifies a breakpoint in ARM mode. (Can not be used with JLINKARM_BP_TYPE_THUMB). */
+    JLINKARM_BP_TYPE_ARM,
+
+    /** Specifies a breakpoint in THUMB mode. (Can not be used with JLINKARM_BP_TYPE_ARM). */
+    JLINKARM_BP_TYPE_THUMB,
+
+    /**
+     * Allows any type of implementation, software or any hardware unit.
+     * This is the same as specifying JLINKARM_BP_IMP_SW | JLINKARM_BP_IMP_HW and is
+     * also default if no Implementation flag is given.
+     */
+    JLINKARM_BP_IMP_ANY,
+
+    /** Allows implementation as software breakpoint if the address is located in RAM or Flash. */
+    JLINKARM_BP_IMP_SW,
+
+    /** Allows implementation as software breakpoint if the address is located in RAM. */
+    JLINKARM_BP_IMP_SW_RAM,
+
+    /** Allows implementation as software breakpoint if the address is located in Flash. */
+    JLINKARM_BP_IMP_SW_FLASH,
+
+    /** Allows using of any hardware breakpoint unit. */
+    JLINKARM_BP_IMP_HW,
 } JLINKARM_BP_TYPE;
 
 /**
@@ -248,12 +284,12 @@ enum {
     JLINKARM_HALT_REASON_VECTOR_CATCH,       //!<@brief CPU has been halted because of vector catch
 };
 
-typedef struct {
+typedef struct JLINKARM_MOE_INFO {
     int HaltReason;
     int Index;
 } JLINKARM_MOE_INFO;
 
-typedef struct {
+typedef struct JLINKARM_EMU_CONNECT_INFO {
     /**
      * This is the serial number reported in the
      * discovery process. For J-Links which are
@@ -335,20 +371,15 @@ typedef struct {
 } JLINKARM_EMU_CONNECT_INFO;
 
 
-/**
-* TODO
-* @deprecated 弃用结构体
-* @bug 结构未知
-*/
-typedef struct {
-    char a[sizeof(JLINKARM_EMU_CONNECT_INFO)];
-} JLINKARM_EMU_INFO;
-
+// 弃用结构体，结构未知
+//typedef struct JLINKARM_EMU_INFO {
+//
+//} JLINKARM_EMU_INFO;
 
 /**
  *
  */
-typedef struct {
+typedef struct JLINK_MEM_ZONE_INFO {
     uint16_t VTarget;      //!<@brief Target supply voltage.
     const char *sName;     //!<@brief Initials of the memory zone.
     const char *sDesc;     //!<@brief Name of the memory zone.
@@ -393,7 +424,7 @@ typedef enum {
     JLINKARM_CM3_RESET_TYPE_S3FN60D,
 } JLINKARM_RESET_TYPE;
 
-typedef struct {
+typedef struct JLINKARM_JTAG_DEVICE_CONF {
     uint32_t SizeofStruct;
     uint32_t IRLen;
     uint32_t IRPrint;
@@ -401,7 +432,7 @@ typedef struct {
     const char *sName;
 } JLINKARM_JTAG_DEVICE_CONF;
 
-typedef struct {
+typedef struct JLINKARM_JTAG_DEVICE_INFO {
     const char *sName;
     uint32_t IRLen;
     uint32_t IRPrint;
@@ -411,7 +442,7 @@ typedef struct {
  * This structure is used to configure SWO when calling the {@link JLINKARM_SWO_Control} function
  * with command JLINKARM_SWO_CMD_START.
  */
-typedef struct {
+typedef struct JLINKARM_SWO_START_INFO {
     /**
      * Size of structure. This value must be filled by the application
      * and is used to allow future extension of the structure
@@ -428,7 +459,7 @@ typedef struct {
 /**
  * This structure is used to retrieve information about the supported SWO speeds.
  */
-typedef struct {
+typedef struct JLINKARM_SWO_SPEED_INFO {
     /**
      * Size of structure. This value must be filled by the application
      * and is used to allow future extension of the structure.
@@ -477,7 +508,7 @@ typedef struct {
 /**
  * Flushes data from the SWO buffer. After this operation,
  * the flushed part of the SWO buffer is empty.
- * pData is a pointer to an U32 value containing the number of bytes to be flushed.
+ * pData is a pointer to an uint32_t value containing the number of bytes to be flushed.
  * TODO 值未知
  */
 #define JLINKARM_SWO_CMD_FLUSH
@@ -500,7 +531,7 @@ typedef struct {
 /**
  * Sets the size of buffer used by the host to collect SWO data.
  * By default this value is set to 4MB.
- * pData is a pointer to an U32 value containing the new buffersize.
+ * pData is a pointer to an uint32_t value containing the new buffersize.
  * TODO 值未知
  */
 #define JLINKARM_SWO_CMD_SET_BUFFERSIZE_HOST
@@ -508,27 +539,29 @@ typedef struct {
 /**
  * Sets the size of buffer used by the emulator to collect SWO data.
  * By default this value is set to 4KB.
- * pData is a pointer to an U32 value containing the new buffersize.
+ * pData is a pointer to an uint32_t value containing the new buffersize.
  * TODO 值未知
  */
 #define JLINKARM_SWO_CMD_SET_BUFFERSIZE_EMU
 
-typedef struct {
-    uint32_t ConfigBlockAddress; //!<@brief Address of RTT block
+typedef struct JLINK_RTTERMINAL_START {
+    /** Address of RTT block */
+    uint32_t ConfigBlockAddress;
     uint32_t Dummy0;
     uint32_t Dummy1;
     uint32_t Dummy2;
 } JLINK_RTTERMINAL_START;
 
-typedef struct {
-    uint8_t InvalidateTargetCB; //!<@brief If set, RTTCB will be invalidated on target.
+typedef struct JLINK_RTTERMINAL_STOP {
+    /** If set, RTTCB will be invalidated on target. */
+    uint8_t InvalidateTargetCB;
     uint8_t acDummy[3];
     uint32_t Dummy0;
     uint32_t Dummy1;
     uint32_t Dummy2;
 } JLINK_RTTERMINAL_STOP;
 
-typedef struct {
+typedef struct JLINK_RTTERMINAL_BUFDESC {
     int BufferIndex;             //!<@brief In: Index of the buffer to get info about.
     uint32_t Direction;          //!<@brief In: Direction of the buffer. (0 = Up; 1 = Down)
     char acName[32];             //!<@brief Out: Array for the 0-terminated name of the buffer.
@@ -543,6 +576,203 @@ enum JLINKARM_RTTERMINAL_CMD {
     JLINKARM_RTTERMINAL_CMD_GETNUMBUF = 3,   //!<@brief After starting RTT, get the current number of up or down buffers.  TODO @bug 值不确定
 //    JLINKARM_RTTERMINAL_CMD_GETSTAT = 4,
 };
+
+#define JLINKARM_DEV_FAMILY_CM0             //!<@brief Target CPU/MCU is a Cortex-M0 device. TODO 值未知
+#define JLINKARM_DEV_FAMILY_CM1             //!<@brief Target CPU/MCU is a Cortex-M1 device. TODO 值未知
+#define JLINKARM_DEV_FAMILY_CM3             //!<@brief Target CPU/MCU is a Cortex-M3 device. TODO 值未知
+#define JLINKARM_DEV_FAMILY_CORTEX_R4       //!<@brief Target CPU/MCU is an Cortex-R4 core. TODO 值未知
+#define JLINKARM_DEV_FAMILY_SIM             //!<@brief Target CPU/MCU simulator. TODO 值未知
+#define JLINKARM_DEV_FAMILY_XSCALE          //!<@brief Target CPU/MCU is a XScale device. TODO 值未知
+#define JLINKARM_DEV_FAMILY_ARM7            //!<@brief Target CPU/MCU is an ARM7 device. TODO 值未知
+#define JLINKARM_DEV_FAMILY_ARM9            //!<@brief Target CPU/MCU is a ARM9 device. TODO 值未知
+#define JLINKARM_DEV_FAMILY_ARM10           //!<@brief Target CPU/MCU is a ARM10 device. TODO 值未知
+#define JLINKARM_DEV_FAMILY_ARM11           //!<@brief Target CPU/MCU is an ARM11 core. TODO 值未知
+
+typedef struct JLINKARM_DEVICE_SELECT_INFO {
+    /** Size of this structure. This element has to be filled in before calling the API function. */
+    uint32_t SizeOfStruct;
+
+    /** Will be set to the core index selected by the user (default 0). */
+    uint32_t CoreIndex;
+} JLINKARM_DEVICE_SELECT_INFO;
+
+
+/** Measured state of pin is low (logical 0). */
+#define JLINKARM_HW_PIN_STATUS_LOW
+
+/** Measured state of pin is high (logical 1). */
+#define JLINKARM_HW_PIN_STATUS_HIGH
+
+/** Pin state could not be measured. Measuring JTAG pin state is not supported by JLink / J-Trace. */
+#define JLINKARM_HW_PIN_STATUS_UNKNOWN
+
+typedef struct JLINKARM_HW_STATUS {
+    /** Target supply voltage. */
+    uint16_t VTarget;
+
+    /** Measured state of TCK pin. The valid values for the pin state are described below. */
+    uint8_t tck;
+
+    /** Measured state of TDI pin. The valid values for the pin state are described below. */
+    uint8_t tdi;
+
+    /** Measured state of TDO pin. The valid values for the pin state are described below. */
+    uint8_t tdo;
+
+    /** Measured state of TMS pin. The valid values for the pin state are described below. */
+    uint8_t tms;
+
+    /** Measured state of TRES pin. The valid values for the pin state are described below. */
+    uint8_t tres;
+
+    /** Measured state of TRST pin. The valid values for the pin state are described below. */
+    uint8_t trst;
+} JLINKARM_HW_STATUS;
+
+typedef struct JTAG_ID_DATA {
+    /** Number of devices in this scan chain */
+    int NumDevices;
+
+    /** Total Number of bits in all scan chain select registers */
+    uint16_t ScanLen;
+
+    /** JTAG ID of device */
+    uint32_t aId[3];
+
+    /** Number of bits in individual scan chain select registers */
+    uint8_t aScanLen[3];
+
+    /** Data read back from instruction register */
+    uint8_t aIrRead[3];
+
+    /** Data read back from scan chain select register */
+    uint8_t aScanRead[3];
+} JTAG_ID_DATA;
+
+typedef struct JLINKARM_SPEED_INFO {
+
+    /** Size of this structure. This element has to be filled in before calling the API function. */
+    uint32_t SizeOfStruct;
+
+    /** Base frequency (in Hz) used to calculate supported target interface speeds. */
+    uint32_t BaseFreq;
+
+    /** Minimum divider allowed to divide the base frequency. */
+    uint16_t MinDiv;
+
+    /** Indicates whether the emulator supports adaptive clocking or not. */
+    uint16_t SupportAdaptive;
+} JLINKARM_SPEED_INFO;
+
+typedef struct JLINK_HSS_MEM_BLOCK_DESC {
+    /** Address that shall be read from when sampling. */
+    uint32_t Addr;
+
+    /** Number of bytes that shall be read when sampling. */
+    uint32_t NumBytes;
+
+    /** SBZ. Reserved for future use. */
+    uint32_t Flags;
+
+    /** SBZ. Reserved for future use. */
+    uint32_t Dummy;
+} JLINK_HSS_MEM_BLOCK_DESC;
+
+/** Setup the POWERTRACE functionality. */
+#define JLINK_POWERTRACE_CMD_SETUP
+
+/** Starts capturing measurement data. */
+#define JLINK_POWERTRACE_CMD_START
+
+/** Flush POWERTRACE data buffer. Any data which has not been read is lost. */
+#define JLINK_POWERTRACE_CMD_FLUSH
+
+/** Stops capturing measurement data. */
+#define JLINK_POWERTRACE_CMD_STOP
+
+/** Get POWERTRACE capabilities of the connected emulator. */
+#define JLINK_POWERTRACE_CMD_GET_CAPS
+
+/** Get capabilities of a specific measurement channel. */
+#define JLINK_POWERTRACE_CMD_GET_CHANNEL_CAPS
+
+/** Get the number of POWERTRACE items which are available to read. */
+#define JLINK_POWERTRACE_CMD_GET_NUM_ITEMS
+
+typedef struct JLINK_POWERTRACE_SETUP {
+    /**
+     * Size of this structure. Needs to be filled by
+     * the user. Used for backward-compatibility
+     * if the structure is enhanced in future versions.
+     */
+    int SizeofStruct;
+
+    /**
+     * Bitmask to setup which channels shall be
+     * enabled for capturing data.
+     *
+     *  - Bits 0-7: Internal channel 0-7
+     *
+     *  - Bits 8-31: Reserved
+     *
+     * If a bit is 1, the corresponding channel is enabled.
+     * If it is set to 0, the corresponding channel is disabled.
+     */
+    uint32_t ChannelMask;
+
+    /**
+     * Sampling frequency in Hz. Please note that
+     * the maximum sample frequency which can
+     * be used depends on the number of channels which are enabled.
+     * For more information about how to determine the maximum sampling
+     * frequency for your configuration
+     * @see JLINK_POWERTRACE_CMD_GET_CHANNEL_CAPS
+     */
+    uint32_t SampleFreq;
+
+    /**
+     * Reference value which shall be stored for
+     * every sampled value.
+     *
+     * 0: No reference value is stored
+     *
+     * 1: Number of bytes transferred via SWO
+     * since capturing has been started. Only
+     * available for ARM Cortex-M devices which
+     * support SWO.
+     *
+     * 2: Number of miliseconds elapsed, since
+     * powertrace capturing has been started.
+     */
+    int RefSelect;
+
+    /**
+     * Capturing enable condition.
+     *
+     * 0: Data is always captured, even if the CPU is halted. Capturing is only
+     *    stopped when receiving a JLINK_POWERTRACE_CMD_STOP command.
+     *
+     * 1: Data is only captured while the CPU is running
+     */
+    int EnableCond;
+} JLINK_POWERTRACE_SETUP;
+
+typedef struct JLINK_POWERTRACE_DATA_ITEM {
+    /**
+     * Reference value (can be used to correlate
+     * the measured value to the time when it
+     * has been measured), if enabled. For more
+     * information about how to setup the POWERTRACE functionality to store a reference value,
+     * @see JLINK_POWERTRACE_CMD_SETUP
+     */
+    uint32_t RefValue;
+
+    /**
+     * Measured data.
+     * Reserved for future use. Currently 0.
+     */
+    uint32_t Data;
+} JLINK_POWERTRACE_DATA_ITEM;
 
 #ifdef __cplusplus
 }

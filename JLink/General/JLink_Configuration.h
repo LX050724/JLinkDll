@@ -84,7 +84,7 @@ enum {
  * char NeedDealloc;
  * char ac[128];
  * const char *s;
- * U32 Index;
+ * uint32_t Index;
  * JLINKARM_EMU_CONNECT_INFO * paConnectInfo;
  * JLINKARM_EMU_CONNECT_INFO aConnectInfo[50];
  * //
@@ -115,13 +115,6 @@ enum {
  * @retval <0 Error.
  */
 int JLINKARM_EMU_GetList(int HostIFs, JLINKARM_EMU_CONNECT_INFO *paConnectInfo, int MaxInfos);
-
-/**
- * @deprecated Use {@link JLINKARM_EMU_GetList} instead.
- * Get USB enumeration specific information about a specific J-Link such as serial number
- * used by J-Link to enumerate on USB.
- */
-//void JLINKARM_EMU_GetDeviceInfo(uint32_t iEmu, JLINKARM_EMU_INFO *pInfo);
 
 /**
  * This function allows the user to select a specific J-Link he wants to connect to by passing

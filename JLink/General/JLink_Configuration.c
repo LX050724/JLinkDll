@@ -9,7 +9,6 @@ static void (*P_JLINKARM_ConfigJTAG)(int IRPre, int DRPre);
 static int (*P_JLINK_EMU_AddLicense)(const char *sLicense);
 static int (*P_JLINK_EMU_EraseLicenses)(void);
 static int (*P_JLINK_EMU_GetLicenses)(char *pBuffer, uint32_t NumBytes);
-static void (*P_JLINKARM_EMU_GetDeviceInfo)(uint32_t iEmu, JLINKARM_EMU_INFO *pInfo);
 static int (*P_JLINKARM_EMU_SelectByUSBSN)(uint32_t SerialNo);
 static int (*P_JLINKARM_EMU_SelectIP)(char *pIPAddr, int BufferSize, uint16_t *pPort);
 static void (*P_JLINKARM_EMU_SelectIPBySN)(uint32_t SerialNo);
@@ -28,8 +27,6 @@ int JLINK_GERENAL_CONFIGURATION_Init() {
     if (P_JLINK_EMU_EraseLicenses == NULL) return 0;
     P_JLINK_EMU_GetLicenses = JLinkDLL_getSym("JLINK_EMU_GetLicenses");
     if (P_JLINK_EMU_GetLicenses == NULL) return 0;
-    P_JLINKARM_EMU_GetDeviceInfo = JLinkDLL_getSym("JLINKARM_EMU_GetDeviceInfo");
-    if (P_JLINKARM_EMU_GetDeviceInfo == NULL) return 0;
     P_JLINKARM_EMU_SelectByUSBSN = JLinkDLL_getSym("JLINKARM_EMU_SelectByUSBSN");
     if (P_JLINKARM_EMU_SelectByUSBSN == NULL) return 0;
     P_JLINKARM_EMU_SelectIP = JLinkDLL_getSym("JLINKARM_EMU_SelectIP");
@@ -63,10 +60,6 @@ int JLINK_EMU_EraseLicenses(void) {
 
 int JLINK_EMU_GetLicenses(char *pBuffer, uint32_t NumBytes) {
     return P_JLINK_EMU_GetLicenses(pBuffer, NumBytes);
-}
-
-void JLINKARM_EMU_GetDeviceInfo(uint32_t iEmu, JLINKARM_EMU_INFO *pInfo) {
-    P_JLINKARM_EMU_GetDeviceInfo(iEmu, pInfo);
 }
 
 int JLINKARM_EMU_SelectByUSBSN(uint32_t SerialNo) {

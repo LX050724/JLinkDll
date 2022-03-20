@@ -5,15 +5,15 @@
 #include "JLink_Reset.h"
 #include "JLink/JLink_Init.h"
 
-int (*P_JLINKARM_Reset)(void);
-void (*P_JLINKARM_ResetNoHalt)(void);
-void (*P_JLINKARM_ResetPullsRESET)(uint8_t OnOff);
-void (*P_JLINKARM_ResetPullsTRST)(uint8_t OnOff);
-void (*P_JLINKARM_ResetTRST)(void);
-int (*P_JLINKARM_SetInitRegsOnReset)(int OnOff);
-void (*P_JLINKARM_SetResetDelay)(int ms);
-void (*P_JLINKARM_SetResetType)(JLINKARM_RESET_TYPE ResetType);
-int (*P_JLINKARM_GetResetTypeDesc)(int ResetType, const char **psResetName, const char **psResetDesc);
+static int (*P_JLINKARM_Reset)(void);
+static void (*P_JLINKARM_ResetNoHalt)(void);
+static void (*P_JLINKARM_ResetPullsRESET)(uint8_t OnOff);
+static void (*P_JLINKARM_ResetPullsTRST)(uint8_t OnOff);
+static void (*P_JLINKARM_ResetTRST)(void);
+static int (*P_JLINKARM_SetInitRegsOnReset)(int OnOff);
+static void (*P_JLINKARM_SetResetDelay)(int ms);
+static void (*P_JLINKARM_SetResetType)(JLINKARM_RESET_TYPE ResetType);
+static int (*P_JLINKARM_GetResetTypeDesc)(int ResetType, const char **psResetName, const char **psResetDesc);
 
 int JLINK_GERENAL_RESET_Init() {
     P_JLINKARM_Reset = JLinkDLL_getSym("JLINKARM_Reset");

@@ -6,7 +6,7 @@
 #ifndef JLINKDLL_JLINK_BASIC_H
 #define JLINKDLL_JLINK_BASIC_H
 
-#include <stdint.h>
+#include <JLink/JLink_Define.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -131,9 +131,6 @@ void JLINKARM_Lock(void);
  * @retval !=NULL Pointer to an error string
  */
 const char *JLINKARM_Open(void);
-
-
-typedef void (*JLINKARM_LOG)(const char *sError);
 
 /**
  * Opens the JTAG connection (see description of {@link JLINKARM_Open}). This function allows to
