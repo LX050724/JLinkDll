@@ -8,42 +8,11 @@
 #ifndef JLINKDLL_JLINK_RTT_H
 #define JLINKDLL_JLINK_RTT_H
 
-#include <stdint.h>
+#include <JLink/JLink_Define.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-typedef struct {
-    uint32_t ConfigBlockAddress; //!<@brief Address of RTT block
-    uint32_t Dummy0;
-    uint32_t Dummy1;
-    uint32_t Dummy2;
-} JLINK_RTTERMINAL_START;
-
-typedef struct {
-    uint8_t InvalidateTargetCB; //!<@brief If set, RTTCB will be invalidated on target.
-    uint8_t acDummy[3];
-    uint32_t Dummy0;
-    uint32_t Dummy1;
-    uint32_t Dummy2;
-} JLINK_RTTERMINAL_STOP;
-
-typedef struct {
-    int BufferIndex;             //!<@brief In: Index of the buffer to get info about.
-    uint32_t Direction;          //!<@brief In: Direction of the buffer. (0 = Up; 1 = Down)
-    char acName[32];             //!<@brief Out: Array for the 0-terminated name of the buffer.
-    uint32_t SizeOfBuffer;       //!<@brief Out: Size of the buffer on the target.
-    uint32_t Flags;              //!<@brief Out: Flags of the buffer.
-} JLINK_RTTERMINAL_BUFDESC;
-
-enum JLINKARM_RTTERMINAL_CMD {
-    JLINKARM_RTTERMINAL_CMD_START = 0,       //!<@brief Starts RTT processing. This includes background read of RTT data from target. p may be NULL.  TODO @bug 值不确定
-    JLINKARM_RTTERMINAL_CMD_STOP = 1,        //!<@brief Stops RTT on the J-Link and host side. p may be NULL.  TODO @bug 值不确定
-    JLINKARM_RTTERMINAL_CMD_GETDESC = 2,     //!<@brief Get the size, name, and flag of a buffer.  TODO @bug 值不确定
-    JLINKARM_RTTERMINAL_CMD_GETNUMBUF = 3,   //!<@brief After starting RTT, get the current number of up or down buffers.  TODO @bug 值不确定
-//    JLINKARM_RTTERMINAL_CMD_GETSTAT = 4,
-};
 
 /**
  * Calls an internal command to control RTT.

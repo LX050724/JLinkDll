@@ -207,7 +207,7 @@ typedef struct {
     uint32_t Addr;          //!<@brief Address where breakpoint has been set.
     uint32_t Type;          //!<@brief Type flags which has been specified when the breakpoint was set.
     uint32_t ImpFlags;      //!<@brief Describes the current implementation of the breakpoint. For more information
-                            //!<       please refer to Implementation flags below.
+    //!<       please refer to Implementation flags below.
     uint32_t UseCnt;        //!<@brief Describes how often the breakpoint is set at the same address.
 } JLINKARM_BP_INFO;
 
@@ -230,8 +230,8 @@ typedef enum {
     JLINKARM_BP_TYPE_ARM,       //!<@brief Specifies a breakpoint in ARM mode. (Can not be used with JLINKARM_BP_TYPE_THUMB).
     JLINKARM_BP_TYPE_THUMB,     //!<@brief Specifies a breakpoint in THUMB mode. (Can not be used with JLINKARM_BP_TYPE_ARM).
     JLINKARM_BP_IMP_ANY,        //!<@brief Allows any type of implementation, software or any hardware unit.
-                                //!< This is the same as specifying JLINKARM_BP_IMP_SW | JLINKARM_BP_IMP_HW and is
-                                //!< also default if no Implementation flag is given.
+    //!< This is the same as specifying JLINKARM_BP_IMP_SW | JLINKARM_BP_IMP_HW and is
+    //!< also default if no Implementation flag is given.
     JLINKARM_BP_IMP_SW,         //!<@brief Allows implementation as software breakpoint if the address is located in RAM or Flash.
     JLINKARM_BP_IMP_SW_RAM,     //!<@brief Allows implementation as software breakpoint if the address is located in RAM.
     JLINKARM_BP_IMP_SW_FLASH,   //!<@brief Allows implementation as software breakpoint if the address is located in Flash.
@@ -303,16 +303,35 @@ typedef struct {
      */
     uint64_t Time_us;
 
-    uint32_t HWVersion;              //!<@brief J-Link via IP only: Hardware version of JLink
-    uint8_t abMACAddr;               //!<@brief J-Link via IP only: MAC Addr
-    char acProduct[32];              //!<@brief J-Link via IP only: Product name
-    char acNickName[32];             //!<@brief J-Link via IP only: Nickname of J-Link
-    char acFWString[112];            //!<@brief J-Link via IP only: Firmware string of JLink
-    char IsDHCPAssignedIP;           //!<@brief J-Link via IP only: Is J-Link configured for IP address reception via DHCP?
-    char IsDHCPAssignedIPIsValid;    //!<@brief J-Link via IP only
-    char NumIPConnections;           //!<@brief J-Link via IP only: Number of IP connections which are currently established to this J-Link
-    char NumIPConnectionsIsValid;    //!<@brief J-Link via IP only
-    char aPadding[34];               //!<@brief Dummy bytes to pad the structure size to 264 bytes. Reserved for future use.
+    /** J-Link via IP only: Hardware version of JLink */
+    uint32_t HWVersion;
+
+    /** J-Link via IP only: MAC Addr */
+    uint8_t abMACAddr;
+
+    /** J-Link via IP only: Product name */
+    char acProduct[32];
+
+    /** J-Link via IP only: Nickname of J-Link */
+    char acNickName[32];
+
+    /** J-Link via IP only: Firmware string of JLink */
+    char acFWString[112];
+
+    /** J-Link via IP only: Is J-Link configured for IP address reception via DHCP? */
+    char IsDHCPAssignedIP;
+
+    /** J-Link via IP only */
+    char IsDHCPAssignedIPIsValid;
+
+    /** J-Link via IP only: Number of IP connections which are currently established to this J-Link */
+    char NumIPConnections;
+
+    /** J-Link via IP only */
+    char NumIPConnectionsIsValid;
+
+    /** Dummy bytes to pad the structure size to 264 bytes. Reserved for future use. */
+    char aPadding[34];
 } JLINKARM_EMU_CONNECT_INFO;
 
 
@@ -373,6 +392,157 @@ typedef enum {
     JLINKARM_CM3_RESET_TYPE_LPC1200,
     JLINKARM_CM3_RESET_TYPE_S3FN60D,
 } JLINKARM_RESET_TYPE;
+
+typedef struct {
+    uint32_t SizeofStruct;
+    uint32_t IRLen;
+    uint32_t IRPrint;
+    uint32_t Id;
+    const char *sName;
+} JLINKARM_JTAG_DEVICE_CONF;
+
+typedef struct {
+    const char *sName;
+    uint32_t IRLen;
+    uint32_t IRPrint;
+} JLINKARM_JTAG_DEVICE_INFO;
+
+/**
+ * This structure is used to configure SWO when calling the {@link JLINKARM_SWO_Control} function
+ * with command JLINKARM_SWO_CMD_START.
+ */
+typedef struct {
+    /**
+     * Size of structure. This value must be filled by the application
+     * and is used to allow future extension of the structure
+     */
+    uint32_t SizeofStruct;
+
+    /** Specifies the interface type to be used for SWO. */
+    uint32_t Interface;
+
+    /** Selects the frequency used for SWO communication in Hz. */
+    uint32_t Speed;
+} JLINKARM_SWO_START_INFO;
+
+/**
+ * This structure is used to retrieve information about the supported SWO speeds.
+ */
+typedef struct {
+    /**
+     * Size of structure. This value must be filled by the application
+     * and is used to allow future extension of the structure.
+     */
+    uint32_t SizeofStruct;
+
+    /**
+     * Specifies the interface type for which the speed information
+     * should be retrieved.
+     */
+    uint32_t Interface;
+
+    /** Base frequency (in Hz) used to calculate supported SWO speeds. */
+    uint32_t BaseFreq;
+
+    /** Minimum divider allowed to divide the base frequency. */
+    uint32_t MinDiv;
+
+    /** Maximum divider allowed to divide the base frequency. */
+    uint32_t MaxDiv;
+
+    /** Minimum prescaler allowed to adjust the base frequency. */
+    uint32_t MinPrescale;
+
+    /** Maximum prescaler allowed to adjust the base frequency. */
+    uint32_t MaxPrescale;
+} JLINKARM_SWO_SPEED_INFO;
+
+#define JLINKARM_SWO_IF_UART //!<@brief Selects UART encoding. TODO 值未知
+
+/**
+ * Starts collecting SWO data.
+ * pData is a pointer to a structure of type
+ * JLINKARM_SWO_START_INFO. For more detailed information please refer to JLINKARM_SWO_START_INFO on page 262.
+ * TODO 值未知
+ */
+#define JLINKARM_SWO_CMD_START
+
+/**
+ * Stops collecting SWO data.
+ * pData is not used.
+ * TODO 值未知
+ */
+#define JLINKARM_SWO_CMD_STOP
+
+/**
+ * Flushes data from the SWO buffer. After this operation,
+ * the flushed part of the SWO buffer is empty.
+ * pData is a pointer to an U32 value containing the number of bytes to be flushed.
+ * TODO 值未知
+ */
+#define JLINKARM_SWO_CMD_FLUSH
+
+/**
+ * Retrieves information about the supported SWO speeds.
+ * pData is a pointer to a structure of type JLINKARM_SWO_SPEED_INFO.
+ * @see JLINKARM_SWO_SPEED_INFO
+ * TODO 值未知
+ */
+#define JLINKARM_SWO_CMD_GET_SPEED_INFO
+
+/**
+ * Returns the number of bytes in the SWO buffer.
+ * pData is not used.
+ * TODO 值未知
+ */
+#define JLINKARM_SWO_CMD_GET_NUM_BYTES
+
+/**
+ * Sets the size of buffer used by the host to collect SWO data.
+ * By default this value is set to 4MB.
+ * pData is a pointer to an U32 value containing the new buffersize.
+ * TODO 值未知
+ */
+#define JLINKARM_SWO_CMD_SET_BUFFERSIZE_HOST
+
+/**
+ * Sets the size of buffer used by the emulator to collect SWO data.
+ * By default this value is set to 4KB.
+ * pData is a pointer to an U32 value containing the new buffersize.
+ * TODO 值未知
+ */
+#define JLINKARM_SWO_CMD_SET_BUFFERSIZE_EMU
+
+typedef struct {
+    uint32_t ConfigBlockAddress; //!<@brief Address of RTT block
+    uint32_t Dummy0;
+    uint32_t Dummy1;
+    uint32_t Dummy2;
+} JLINK_RTTERMINAL_START;
+
+typedef struct {
+    uint8_t InvalidateTargetCB; //!<@brief If set, RTTCB will be invalidated on target.
+    uint8_t acDummy[3];
+    uint32_t Dummy0;
+    uint32_t Dummy1;
+    uint32_t Dummy2;
+} JLINK_RTTERMINAL_STOP;
+
+typedef struct {
+    int BufferIndex;             //!<@brief In: Index of the buffer to get info about.
+    uint32_t Direction;          //!<@brief In: Direction of the buffer. (0 = Up; 1 = Down)
+    char acName[32];             //!<@brief Out: Array for the 0-terminated name of the buffer.
+    uint32_t SizeOfBuffer;       //!<@brief Out: Size of the buffer on the target.
+    uint32_t Flags;              //!<@brief Out: Flags of the buffer.
+} JLINK_RTTERMINAL_BUFDESC;
+
+enum JLINKARM_RTTERMINAL_CMD {
+    JLINKARM_RTTERMINAL_CMD_START = 0,       //!<@brief Starts RTT processing. This includes background read of RTT data from target. p may be NULL.  TODO @bug 值不确定
+    JLINKARM_RTTERMINAL_CMD_STOP = 1,        //!<@brief Stops RTT on the J-Link and host side. p may be NULL.  TODO @bug 值不确定
+    JLINKARM_RTTERMINAL_CMD_GETDESC = 2,     //!<@brief Get the size, name, and flag of a buffer.  TODO @bug 值不确定
+    JLINKARM_RTTERMINAL_CMD_GETNUMBUF = 3,   //!<@brief After starting RTT, get the current number of up or down buffers.  TODO @bug 值不确定
+//    JLINKARM_RTTERMINAL_CMD_GETSTAT = 4,
+};
 
 #ifdef __cplusplus
 }

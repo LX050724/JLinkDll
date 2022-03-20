@@ -52,6 +52,8 @@ int JLinkDLL_Init(const char *dl_path) {
 //        printf("Loaded DLL '%s' at %p\n", dl_path, handel);
         INIT_MODULE(RTT)
         INIT_MODULE(General)
+        INIT_MODULE(JTAG)
+        INIT_MODULE(SWO)
     }
     return 1;
 }
