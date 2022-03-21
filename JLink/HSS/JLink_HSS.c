@@ -18,15 +18,16 @@ int JLINK_HSS_Init() {
     if (P_JLINK_HSS_Read == NULL) return 0;
     return 1;
 }
-
+//PYTHON CHECK POINT
 int JLINK_HSS_Start(JLINK_HSS_MEM_BLOCK_DESC *paDesc, int NumBlocks, int Period_us, int Flags) {
-    return P_JLINK_HSS_Start(paDesc, NumBlocks, Period_us, Flags);
+    return JLinkDLL_CALLPTR(P_JLINK_HSS_Start, paDesc, NumBlocks, Period_us, Flags);
 }
 
 int JLINK_HSS_Stop(void) {
-    return P_JLINK_HSS_Stop();
+    return JLinkDLL_CALLPTR(P_JLINK_HSS_Stop);
 }
 
 int JLINK_HSS_Read(void *pBuffer, uint32_t BufferSize) {
-    return P_JLINK_HSS_Read(pBuffer, BufferSize);
+    return JLinkDLL_CALLPTR(P_JLINK_HSS_Read, pBuffer, BufferSize);
 }
+//PYTHON CHECK POINT

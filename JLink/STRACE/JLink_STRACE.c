@@ -27,27 +27,28 @@ int JLINK_STRACE_Init() {
     if (P_JLINK_STRACE_Stop == NULL) return 0;
     return 1;
 }
-
+//PYTHON CHECK POINT
 int JLINK_STRACE_Config(const char *sConfig) {
-    return P_JLINK_STRACE_Config(sConfig);
+    return JLinkDLL_CALLPTR(P_JLINK_STRACE_Config, sConfig);
 }
 
 int JLINK_STRACE_Control(uint32_t Cmd, void *pData) {
-    return P_JLINK_STRACE_Control(Cmd, pData);
+    return JLinkDLL_CALLPTR(P_JLINK_STRACE_Control, Cmd, pData);
 }
 
 int JLINK_STRACE_GetInstStats(void *paItem, uint32_t Addr, uint32_t NumItems, uint32_t SizeOfStruct, uint32_t Type) {
-    return P_JLINK_STRACE_GetInstStats(paItem, Addr, NumItems, SizeOfStruct, Type);
+    return JLinkDLL_CALLPTR(P_JLINK_STRACE_GetInstStats, paItem, Addr, NumItems, SizeOfStruct, Type);
 }
 
 int JLINK_STRACE_Read(uint32_t *paItem, uint32_t NumItems) {
-    return P_JLINK_STRACE_Read(paItem, NumItems);
+    return JLinkDLL_CALLPTR(P_JLINK_STRACE_Read, paItem, NumItems);
 }
 
 int JLINK_STRACE_Start(void) {
-    return P_JLINK_STRACE_Start();
+    return JLinkDLL_CALLPTR(P_JLINK_STRACE_Start);
 }
 
 int JLINK_STRACE_Stop(void) {
-    return P_JLINK_STRACE_Stop();
+    return JLinkDLL_CALLPTR(P_JLINK_STRACE_Stop);
 }
+//PYTHON CHECK POINT

@@ -126,9 +126,7 @@ uint32_t JLINKARM_UpdateFirmwareIfNewer(void);
 void JLINKARM_SetWarnOutHandler(JLINKARM_LOG* pfWarnOut);
 void JLINKARM_WriteBits(void);
 uint32_t JLINKARM_EMU_GetNumDevices(void);
-
-// 缺少JLINK_FUNC_INDEX定义，无法使用
-//void *JLINK_GetpFunc(JLINK_FUNC_INDEX FuncIndex);
+void *JLINK_GetpFunc(JLINK_FUNC_INDEX FuncIndex);
 
 // 缺少JLINKARM_RTCK_REACT_INFO定义，无法使用
 //int JLINKARM_MeasureRTCKReactTime(JLINKARM_RTCK_REACT_INFO* pReactInfo);

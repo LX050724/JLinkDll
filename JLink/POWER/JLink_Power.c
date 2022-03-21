@@ -15,10 +15,11 @@ int JLINK_POWERTRACE_Init() {
     if (P_JLINK_POWERTRACE_Read == NULL) return 0;
     return 1;
 }
-
+//PYTHON CHECK POINT
 int JLINK_POWERTRACE_Control(int Cmd, void *pIn, void *pOut) {
-    return P_JLINK_POWERTRACE_Control(Cmd, pIn, pOut);
+    return JLinkDLL_CALLPTR(P_JLINK_POWERTRACE_Control, Cmd, pIn, pOut);
 }
 int JLINK_POWERTRACE_Read(JLINK_POWERTRACE_DATA_ITEM *paData, uint32_t NumItems) {
-    return P_JLINK_POWERTRACE_Read(paData, NumItems);
+    return JLinkDLL_CALLPTR(P_JLINK_POWERTRACE_Read, paData, NumItems);
 }
+//PYTHON CHECK POINT

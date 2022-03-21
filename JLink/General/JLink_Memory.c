@@ -65,76 +65,76 @@ int JLINK_GERENAL_MEM_Init() {
     if (P_JLINKARM_WriteU64 == NULL) return 0;
     return 1;
 }
-
+//PYTHON CHECK POINT
 int JLINK_GetMemZones(JLINK_MEM_ZONE_INFO *paZoneInfo, int MaxNumZones) {
-    return P_JLINK_GetMemZones(paZoneInfo, MaxNumZones);
+    return JLinkDLL_CALLPTR(P_JLINK_GetMemZones, paZoneInfo, MaxNumZones);
 }
 
 int JLINKARM_ReadMem(uint32_t Addr, uint32_t NumBytes, void *pData) {
-    return P_JLINKARM_ReadMem(Addr, NumBytes, pData);
+    return JLinkDLL_CALLPTR(P_JLINKARM_ReadMem, Addr, NumBytes, pData);
 }
 
 int JLINKARM_ReadMemEx(uint32_t Addr, uint32_t NumBytes, void *pData, uint32_t AccessWidth) {
-    return P_JLINKARM_ReadMemEx(Addr, NumBytes, pData, AccessWidth);
+    return JLinkDLL_CALLPTR(P_JLINKARM_ReadMemEx, Addr, NumBytes, pData, AccessWidth);
 }
 
 int JLINKARM_ReadMemIndirect(uint32_t Addr, uint32_t NumBytes, void *pData) {
-    return P_JLINKARM_ReadMemIndirect(Addr, NumBytes, pData);
+    return JLinkDLL_CALLPTR(P_JLINKARM_ReadMemIndirect, Addr, NumBytes, pData);
 }
 
 int JLINKARM_ReadMemHW(uint32_t Addr, uint32_t NumBytes, void *pData) {
-    return P_JLINKARM_ReadMemHW(Addr, NumBytes, pData);
+    return JLinkDLL_CALLPTR(P_JLINKARM_ReadMemHW, Addr, NumBytes, pData);
 }
 
 int JLINKARM_ReadMemU8(uint32_t Addr, uint32_t NumItems, uint8_t *pData, uint8_t *pStatus) {
-    return P_JLINKARM_ReadMemU8(Addr, NumItems, pData, pStatus);
+    return JLinkDLL_CALLPTR(P_JLINKARM_ReadMemU8, Addr, NumItems, pData, pStatus);
 }
 
 int JLINKARM_ReadMemU16(uint32_t Addr, uint32_t NumItems, uint16_t *pData, uint8_t *pStatus) {
-    return P_JLINKARM_ReadMemU16(Addr, NumItems, pData, pStatus);
+    return JLinkDLL_CALLPTR(P_JLINKARM_ReadMemU16, Addr, NumItems, pData, pStatus);
 }
 
 int JLINKARM_ReadMemU32(uint32_t Addr, uint32_t NumItems, uint32_t *pData, uint8_t *pStatus) {
-    return P_JLINKARM_ReadMemU32(Addr, NumItems, pData, pStatus);
+    return JLinkDLL_CALLPTR(P_JLINKARM_ReadMemU32, Addr, NumItems, pData, pStatus);
 }
 
 int JLINKARM_ReadMemU64(uint32_t Addr, uint32_t NumItems, uint64_t *pData, uint8_t *pStatus) {
-    return P_JLINKARM_ReadMemU64(Addr, NumItems, pData, pStatus);
+    return JLinkDLL_CALLPTR(P_JLINKARM_ReadMemU64, Addr, NumItems, pData, pStatus);
 }
 
 int JLINK_ReadMemZonedEx(uint32_t Addr, uint32_t NumBytes, void *pData, uint32_t AccessWidth, const char *sZone) {
-    return P_JLINK_ReadMemZonedEx(Addr, NumBytes, pData, AccessWidth, sZone);
+    return JLinkDLL_CALLPTR(P_JLINK_ReadMemZonedEx, Addr, NumBytes, pData, AccessWidth, sZone);
 }
 
 int JLINKARM_WriteMem(uint32_t Addr, uint32_t Count, const void *pData) {
-    return P_JLINKARM_WriteMem(Addr, Count, pData);
+    return JLinkDLL_CALLPTR(P_JLINKARM_WriteMem, Addr, Count, pData);
 }
 
 int JLINKARM_WriteMemDelayed(uint32_t Addr, uint32_t Count, const void *pData) {
-    return P_JLINKARM_WriteMemDelayed(Addr, Count, pData);
+    return JLinkDLL_CALLPTR(P_JLINKARM_WriteMemDelayed, Addr, Count, pData);
 }
 
 int JLINKARM_WriteMemEx(uint32_t Addr, uint32_t NumBytes, const void *p, uint32_t AccessWidth) {
-    return P_JLINKARM_WriteMemEx(Addr, NumBytes, p, AccessWidth);
+    return JLinkDLL_CALLPTR(P_JLINKARM_WriteMemEx, Addr, NumBytes, p, AccessWidth);
 }
 
 int JLINK_WriteMemZonedEx(uint32_t Addr, uint32_t NumBytes, const void *p, uint32_t AccessWidth, const char *sZone) {
-    return P_JLINK_WriteMemZonedEx(Addr, NumBytes, p, AccessWidth, sZone);
+    return JLinkDLL_CALLPTR(P_JLINK_WriteMemZonedEx, Addr, NumBytes, p, AccessWidth, sZone);
 }
 
 int JLINKARM_WriteU8(uint32_t Addr, uint8_t Data) {
-    return P_JLINKARM_WriteU8(Addr, Data);
+    return JLinkDLL_CALLPTR(P_JLINKARM_WriteU8, Addr, Data);
 }
 
 int JLINKARM_WriteU16(uint32_t Addr, uint16_t Data) {
-    return P_JLINKARM_WriteU16(Addr, Data);
+    return JLinkDLL_CALLPTR(P_JLINKARM_WriteU16, Addr, Data);
 }
 
 int JLINKARM_WriteU32(uint32_t Addr, uint32_t Data) {
-    return P_JLINKARM_WriteU32(Addr, Data);
+    return JLinkDLL_CALLPTR(P_JLINKARM_WriteU32, Addr, Data);
 }
 
 int JLINKARM_WriteU64(uint32_t Addr, uint64_t Data) {
-    return P_JLINKARM_WriteU64(Addr, Data);
+    return JLinkDLL_CALLPTR(P_JLINKARM_WriteU64, Addr, Data);
 }
-
+//PYTHON CHECK POINT

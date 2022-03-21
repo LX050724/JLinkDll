@@ -8,6 +8,13 @@
 #define DL_OPEN(PATH) dlopen()
 #define DL_SYM(HANDEL, NAME) dlsym
 #define DL_HANDEL void *
+//#ifndef JLINK_LIB_PATH
+//#if _WIN64
+//#define JLINK_LIB_PATH "JLink_x64.dll"
+//#else
+//#define JLINK_LIB_PATH "JLinkARM.dll"
+//#endif
+//#endif
 #else
 #include <windows.h>
 #include <stdio.h>
@@ -15,8 +22,6 @@
 #define DL_FREE(HANDEL) FreeLibrary(HANDEL)
 #define DL_SYM(HANDEL, NAME) GetProcAddress(HANDEL, NAME)
 #define DL_HANDEL HINSTANCE
-#endif
-
 #ifndef JLINK_LIB_PATH
 #if _WIN64
 #define JLINK_LIB_PATH "JLink_x64.dll"
@@ -24,6 +29,9 @@
 #define JLINK_LIB_PATH "JLinkARM.dll"
 #endif
 #endif
+#endif
+
+
 
 #define INIT_MODULE(MODULE) \
 int JLINK_##MODULE##_Init(); \
@@ -67,5 +75,17 @@ int JLinkDLL_Init(const char *dl_path) {
 }
 
 int JLinkDLL_DeInit() {
-    return DL_FREE(handel);
+    if (handel) {
+        int ret = DL_FREE(handel);
+        handel = NULL;
+        return ret;
+    }
+    return 1;
+}
+
+int JLinkDLL_Error(const char *fun_name, const char *filename, int line) {
+    fprintf(stderr, "Error: function %s, in %s:%d\n", fun_name, filename, line);
+    JLinkDLL_DeInit();
+    exit(EXIT_FAILURE);
+    return 0;
 }

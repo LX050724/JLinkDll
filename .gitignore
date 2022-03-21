@@ -4,3 +4,4 @@
 /Document/
 .idea
 DLL_Exports.txt
+*.dll.*

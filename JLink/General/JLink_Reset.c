@@ -36,39 +36,40 @@ int JLINK_GERENAL_RESET_Init() {
     if (P_JLINKARM_GetResetTypeDesc == NULL) return 0;
     return 1;
 }
-
+//PYTHON CHECK POINT
 int JLINKARM_Reset(void) {
-    return P_JLINKARM_Reset();
+    return JLinkDLL_CALLPTR(P_JLINKARM_Reset);
 }
 
 void JLINKARM_ResetNoHalt(void) {
-    P_JLINKARM_ResetNoHalt();
+    JLinkDLL_CALLPTR(P_JLINKARM_ResetNoHalt);
 }
 
 void JLINKARM_ResetPullsRESET(uint8_t OnOff) {
-    P_JLINKARM_ResetPullsRESET(OnOff);
+    JLinkDLL_CALLPTR(P_JLINKARM_ResetPullsRESET, OnOff);
 }
 
 void JLINKARM_ResetPullsTRST(uint8_t OnOff) {
-    P_JLINKARM_ResetPullsTRST(OnOff);
+    JLinkDLL_CALLPTR(P_JLINKARM_ResetPullsTRST, OnOff);
 }
 
 void JLINKARM_ResetTRST(void) {
-    P_JLINKARM_ResetTRST();
+    JLinkDLL_CALLPTR(P_JLINKARM_ResetTRST);
 }
 
 int JLINKARM_SetInitRegsOnReset(int OnOff) {
-    return P_JLINKARM_SetInitRegsOnReset(OnOff);
+    return JLinkDLL_CALLPTR(P_JLINKARM_SetInitRegsOnReset, OnOff);
 }
 
 void JLINKARM_SetResetDelay(int ms) {
-    P_JLINKARM_SetResetDelay(ms);
+    JLinkDLL_CALLPTR(P_JLINKARM_SetResetDelay, ms);
 }
 
 void JLINKARM_SetResetType(JLINKARM_RESET_TYPE ResetType) {
-    P_JLINKARM_SetResetType(ResetType);
+    JLinkDLL_CALLPTR(P_JLINKARM_SetResetType, ResetType);
 }
 
 int JLINKARM_GetResetTypeDesc(int ResetType, const char **psResetName, const char **psResetDesc) {
-    return P_JLINKARM_GetResetTypeDesc(ResetType, psResetName, psResetDesc);
+    return JLinkDLL_CALLPTR(P_JLINKARM_GetResetTypeDesc, ResetType, psResetName, psResetDesc);
 }
+//PYTHON CHECK POINT

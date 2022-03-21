@@ -51,60 +51,60 @@ int JLINK_JTAG_Init() {
     if (P_JLINKARM_JTAG_SyncBytes == NULL) return 0;
     return 1;
 }
-
+//PYTHON CHECK POINT
 void JLINK_JTAG_ConfigDevices(uint32_t NumDevices, const JLINKARM_JTAG_DEVICE_CONF *paConf) {
-    P_JLINK_JTAG_ConfigDevices(NumDevices, paConf);
+    JLinkDLL_CALLPTR(P_JLINK_JTAG_ConfigDevices, NumDevices, paConf);
 }
 
 uint32_t JLINKARM_JTAG_GetDeviceId(unsigned DeviceIndex) {
-    return P_JLINKARM_JTAG_GetDeviceId(DeviceIndex);
+    return JLinkDLL_CALLPTR(P_JLINKARM_JTAG_GetDeviceId, DeviceIndex);
 }
 
 int JLINKARM_JTAG_GetDeviceInfo(unsigned DeviceIndex, JLINKARM_JTAG_DEVICE_INFO *pDeviceInfo) {
-    return P_JLINKARM_JTAG_GetDeviceInfo(DeviceIndex, pDeviceInfo);
+    return JLinkDLL_CALLPTR(P_JLINKARM_JTAG_GetDeviceInfo, DeviceIndex, pDeviceInfo);
 }
 
 uint32_t JLINKARM_JTAG_GetU8(int BitPos) {
-    return P_JLINKARM_JTAG_GetU8(BitPos);
+    return JLinkDLL_CALLPTR(P_JLINKARM_JTAG_GetU8, BitPos);
 }
 
 uint32_t JLINKARM_JTAG_GetU16(int BitPos) {
-    return P_JLINKARM_JTAG_GetU16(BitPos);
+    return JLinkDLL_CALLPTR(P_JLINKARM_JTAG_GetU16, BitPos);
 }
 
 uint32_t JLINKARM_JTAG_GetU32(int BitPos) {
-    return P_JLINKARM_JTAG_GetU32(BitPos);
+    return JLinkDLL_CALLPTR(P_JLINKARM_JTAG_GetU32, BitPos);
 }
 
 void JLINKARM_JTAG_GetData(uint8_t *pDest, int BitPos, int NumBits) {
-    P_JLINKARM_JTAG_GetData(pDest, BitPos, NumBits);
+    JLinkDLL_CALLPTR(P_JLINKARM_JTAG_GetData, pDest, BitPos, NumBits);
 }
 
 int JLINKARM_JTAG_StoreData(const uint8_t *pTDI, int NumBits) {
-    return P_JLINKARM_JTAG_StoreData(pTDI, NumBits);
+    return JLinkDLL_CALLPTR(P_JLINKARM_JTAG_StoreData, pTDI, NumBits);
 }
 
 void JLINKARM_JTAG_StoreInst(const uint8_t *pTDI, int IRLen) {
-    P_JLINKARM_JTAG_StoreInst(pTDI, IRLen);
+    JLinkDLL_CALLPTR(P_JLINKARM_JTAG_StoreInst, pTDI, IRLen);
 }
 
 int JLINKARM_JTAG_StoreRaw(const uint8_t *pTDI, const uint8_t *pTMS, uint32_t NumBits) {
-    return P_JLINKARM_JTAG_StoreRaw(pTDI, pTMS, NumBits);
+    return JLinkDLL_CALLPTR(P_JLINKARM_JTAG_StoreRaw, pTDI, pTMS, NumBits);
 }
 
 void JLINKARM_JTAG_StoreGetData(const uint8_t *pTDI, uint8_t *pTDO, int NumBits) {
-    P_JLINKARM_JTAG_StoreGetData(pTDI, pTDO, NumBits);
+    JLinkDLL_CALLPTR(P_JLINKARM_JTAG_StoreGetData, pTDI, pTDO, NumBits);
 }
 
 void JLINKARM_JTAG_StoreGetRaw(const uint8_t *pTDI, uint8_t *pTDO, const uint8_t *pTMS, uint32_t NumBits) {
-    P_JLINKARM_JTAG_StoreGetRaw(pTDI, pTDO, pTMS, NumBits);
+    JLinkDLL_CALLPTR(P_JLINKARM_JTAG_StoreGetRaw, pTDI, pTDO, pTMS, NumBits);
 }
 
 void JLINKARM_JTAG_SyncBits(void) {
-    P_JLINKARM_JTAG_SyncBits();
+    JLinkDLL_CALLPTR(P_JLINKARM_JTAG_SyncBits);
 }
 
 void JLINKARM_JTAG_SyncBytes(void) {
-    P_JLINKARM_JTAG_SyncBytes();
+    JLinkDLL_CALLPTR(P_JLINKARM_JTAG_SyncBytes);
 }
-
+//PYTHON CHECK POINT

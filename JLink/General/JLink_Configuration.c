@@ -46,50 +46,52 @@ int JLINK_GERENAL_CONFIGURATION_Init() {
     return 1;
 }
 
+//PYTHON CHECK POINT
 void JLINKARM_ConfigJTAG(int IRPre, int DRPre) {
-    P_JLINKARM_ConfigJTAG(IRPre, DRPre);
+    JLinkDLL_CALLPTR(P_JLINKARM_ConfigJTAG, IRPre, DRPre);
 }
 
 int JLINK_EMU_AddLicense(const char *sLicense) {
-    return P_JLINK_EMU_AddLicense(sLicense);
+    return JLinkDLL_CALLPTR(P_JLINK_EMU_AddLicense, sLicense);
 }
 
 int JLINK_EMU_EraseLicenses(void) {
-    return P_JLINK_EMU_EraseLicenses();
+    return JLinkDLL_CALLPTR(P_JLINK_EMU_EraseLicenses);
 }
 
 int JLINK_EMU_GetLicenses(char *pBuffer, uint32_t NumBytes) {
-    return P_JLINK_EMU_GetLicenses(pBuffer, NumBytes);
+    return JLinkDLL_CALLPTR(P_JLINK_EMU_GetLicenses, pBuffer, NumBytes);
 }
 
 int JLINKARM_EMU_SelectByUSBSN(uint32_t SerialNo) {
-    return P_JLINKARM_EMU_SelectByUSBSN(SerialNo);
+    return JLinkDLL_CALLPTR(P_JLINKARM_EMU_SelectByUSBSN, SerialNo);
 }
 
 int JLINKARM_EMU_SelectIP(char *pIPAddr, int BufferSize, uint16_t *pPort) {
-    return P_JLINKARM_EMU_SelectIP(pIPAddr, BufferSize, pPort);
+    return JLinkDLL_CALLPTR(P_JLINKARM_EMU_SelectIP, pIPAddr, BufferSize, pPort);
 }
 
 void JLINKARM_EMU_SelectIPBySN(uint32_t SerialNo) {
-    P_JLINKARM_EMU_SelectIPBySN(SerialNo);
+    JLinkDLL_CALLPTR(P_JLINKARM_EMU_SelectIPBySN, SerialNo);
 }
 
 uint32_t JLINKARM_GetId(void) {
-    return P_JLINKARM_GetId();
+    return JLinkDLL_CALLPTR(P_JLINKARM_GetId);
 }
 
 char JLINKARM_SelectIP(const char *sHost, int Port) {
-    return P_JLINKARM_SelectIP(sHost, Port);
+    return JLinkDLL_CALLPTR(P_JLINKARM_SelectIP, sHost, Port);
 }
 
 char JLINKARM_SelectUSB(int Port) {
-    return P_JLINKARM_SelectUSB(Port);
+    return JLinkDLL_CALLPTR(P_JLINKARM_SelectUSB, Port);
 }
 
 int JLINK_SetHookUnsecureDialog(JLINK_UNSECURE_DIALOG_CB_FUNC *pfHook) {
-    return P_JLINK_SetHookUnsecureDialog(pfHook);
+    return JLinkDLL_CALLPTR(P_JLINK_SetHookUnsecureDialog, pfHook);
 }
 
 int JLINKARM_EMU_GetList(int HostIFs, JLINKARM_EMU_CONNECT_INFO *paConnectInfo, int MaxInfos) {
-    return P_JLINKARM_EMU_GetList(HostIFs, paConnectInfo, MaxInfos);
+    return JLinkDLL_CALLPTR(P_JLINKARM_EMU_GetList, HostIFs, paConnectInfo, MaxInfos);
 }
+//PYTHON CHECK POINT

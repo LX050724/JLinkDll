@@ -208,6 +208,47 @@ typedef enum {
     ARM_NUM_REGS,
 } ARM_REG;
 
+typedef enum JLINK_FUNC_INDEX {
+    JLINK_IFUNC_SET_HOOK_DIALOG_UNLOCK_IDCODE = 0,
+    JLINK_IFUNC_SPI_TRANSFER_MULTIPLE,
+    JLINK_IFUNC_PIN_OVERRIDE,
+    JLINK_IFUNC_PIN_OVERRIDE_GET_PIN_CAPS,
+    JLINK_IFUNC_MRU_GETLIST,
+    JLINK_IFUNC_RESERVED3,
+    JLINK_IFUNC_RESERVED4,
+    JLINK_IFUNC_RESERVED5,
+    JLINK_IFUNC_GET_SESSION_ID,
+    JLINK_IFUNC_CORESIGHT_TRIGGER_READ_APDP_REG,
+    JLINK_IFUNC_CAN_ACC_MEM_WHILE_RUNNING,
+    JLINK_IFUNC_UPDATE_BTL,
+    JLINK_IFUNC_GET_CURRENT_ENDIANESS,
+    JLINK_IFUNC_ALGODB_GET_PALGO_INFO,
+    JLINK_IFUNC_ALGODB_GET_PALGO_INFO_CFI,
+    JLINK_IFUNC_ALGODB_GET_ALGO_NO,
+    JLINK_IFUNC_PCODE_SET_ENTRY_FUNC,
+    JLINK_IFUNC_PCODE_DOWNLOAD,
+    JLINK_IFUNC_PCODE_EXEC_EX,
+    JLINK_IFUNC_START_MERGE_COMMANDS,
+    JLINK_IFUNC_END_MERGE_COMMANDS,
+    JLINK_IFUNC_RAWTRACE_BIST_STARTSTOP,
+    JLINK_IFUNC_RAWTRACE_BIST_READ_ERR_STATS,
+    JLINK_IFUNC_GET_PF_GET_INST_INFO,
+    JLINK_IFUNC_CORESIGHT_ACC_APDP_REG_MUL,
+    JLINK_IFUNC_PCODE_DATA_DOWNLOAD,
+    JLINK_IFUNC_PCODE_EXEC_EX2,
+    JLINK_IFUNC_PCODE_FREE,
+    JLINK_IFUNC_EMU_COMMANDLINE_WRITE_READ,
+    JLINK_IFUNC_GET_PF_DISASSEMBLE_BUFFER,
+    JLINK_IFUNC_EMU_GET_TARGET_IMG_AREA_INFO,
+    JLINK_IFUNC_EMU_READ_TARGET_IMG_AREA,
+    JLINK_IFUNC_EMU_WRITE_TARGET_IMG_AREA,
+    JLINK_IFUNC_EMU_GET_CURR_CONN_INFO,
+    JLINK_IFUNC_GET_PF_EXP_DEVICE_LIST_XML,
+    JLINK_IFUNC_SCRIPTFILE_EXEC_FUNC,
+    JLINK_IFUNC_EMU_ADD_FW_IMAGES,
+    JLINK_NUM_FUNC_INDEXES,
+} JLINK_FUNC_INDEX;
+
 typedef struct JLINKARM_BP_INFO {
     /** Size of this structure. This element has to be filled in before calling the API function. */
     uint32_t SizeOfStruct;
@@ -490,59 +531,55 @@ typedef struct JLINKARM_SWO_SPEED_INFO {
 
 #define JLINKARM_SWO_IF_UART //!<@brief Selects UART encoding. TODO 值未知
 
-/**
- * Starts collecting SWO data.
- * pData is a pointer to a structure of type
- * JLINKARM_SWO_START_INFO. For more detailed information please refer to JLINKARM_SWO_START_INFO on page 262.
- * TODO 值未知
- */
-#define JLINKARM_SWO_CMD_START
 
-/**
- * Stops collecting SWO data.
- * pData is not used.
- * TODO 值未知
- */
-#define JLINKARM_SWO_CMD_STOP
+enum JLINKARM_SWO_CMD {
+    /**
+     * Starts collecting SWO data.
+     * pData is a pointer to a structure of type
+     * JLINKARM_SWO_START_INFO. For more detailed information please refer to JLINKARM_SWO_START_INFO on page 262.
+     */
+    JLINKARM_SWO_CMD_START = 0,
 
-/**
- * Flushes data from the SWO buffer. After this operation,
- * the flushed part of the SWO buffer is empty.
- * pData is a pointer to an uint32_t value containing the number of bytes to be flushed.
- * TODO 值未知
- */
-#define JLINKARM_SWO_CMD_FLUSH
+    /**
+     * Stops collecting SWO data.
+     * pData is not used.
+     */
+    JLINKARM_SWO_CMD_STOP = 1,
 
-/**
- * Retrieves information about the supported SWO speeds.
- * pData is a pointer to a structure of type JLINKARM_SWO_SPEED_INFO.
- * @see JLINKARM_SWO_SPEED_INFO
- * TODO 值未知
- */
-#define JLINKARM_SWO_CMD_GET_SPEED_INFO
+    /**
+     * Flushes data from the SWO buffer. After this operation,
+     * the flushed part of the SWO buffer is empty.
+     * pData is a pointer to an uint32_t value containing the number of bytes to be flushed.
+     */
+    JLINKARM_SWO_CMD_FLUSH = 2,
 
-/**
- * Returns the number of bytes in the SWO buffer.
- * pData is not used.
- * TODO 值未知
- */
-#define JLINKARM_SWO_CMD_GET_NUM_BYTES
+    /**
+     * Retrieves information about the supported SWO speeds.
+     * pData is a pointer to a structure of type JLINKARM_SWO_SPEED_INFO.
+     * @see JLINKARM_SWO_SPEED_INFO
+     */
+    JLINKARM_SWO_CMD_GET_SPEED_INFO = 3,
 
-/**
- * Sets the size of buffer used by the host to collect SWO data.
- * By default this value is set to 4MB.
- * pData is a pointer to an uint32_t value containing the new buffersize.
- * TODO 值未知
- */
-#define JLINKARM_SWO_CMD_SET_BUFFERSIZE_HOST
+    /**
+     * Returns the number of bytes in the SWO buffer.
+     * pData is not used.
+     */
+    JLINKARM_SWO_CMD_GET_NUM_BYTES = 10,
 
-/**
- * Sets the size of buffer used by the emulator to collect SWO data.
- * By default this value is set to 4KB.
- * pData is a pointer to an uint32_t value containing the new buffersize.
- * TODO 值未知
- */
-#define JLINKARM_SWO_CMD_SET_BUFFERSIZE_EMU
+    /**
+     * Sets the size of buffer used by the host to collect SWO data.
+     * By default this value is set to 4MB.
+     * pData is a pointer to an uint32_t value containing the new buffersize.
+     */
+    JLINKARM_SWO_CMD_SET_BUFFERSIZE_HOST = 20,
+
+    /**
+     * Sets the size of buffer used by the emulator to collect SWO data.
+     * By default this value is set to 4KB.
+     * pData is a pointer to an uint32_t value containing the new buffersize.
+     */
+    JLINKARM_SWO_CMD_SET_BUFFERSIZE_EMU = 21,
+};
 
 typedef struct JLINK_RTTERMINAL_START {
     /** Address of RTT block */
@@ -570,12 +607,13 @@ typedef struct JLINK_RTTERMINAL_BUFDESC {
 } JLINK_RTTERMINAL_BUFDESC;
 
 enum JLINKARM_RTTERMINAL_CMD {
-    JLINKARM_RTTERMINAL_CMD_START = 0,       //!<@brief Starts RTT processing. This includes background read of RTT data from target. p may be NULL.  TODO @bug 值不确定
-    JLINKARM_RTTERMINAL_CMD_STOP = 1,        //!<@brief Stops RTT on the J-Link and host side. p may be NULL.  TODO @bug 值不确定
-    JLINKARM_RTTERMINAL_CMD_GETDESC = 2,     //!<@brief Get the size, name, and flag of a buffer.  TODO @bug 值不确定
-    JLINKARM_RTTERMINAL_CMD_GETNUMBUF = 3,   //!<@brief After starting RTT, get the current number of up or down buffers.  TODO @bug 值不确定
-//    JLINKARM_RTTERMINAL_CMD_GETSTAT = 4,
+    JLINKARM_RTTERMINAL_CMD_START = 0,       //!<@brief Starts RTT processing. This includes background read of RTT data from target. p may be NULL.
+    JLINKARM_RTTERMINAL_CMD_STOP = 1,        //!<@brief Stops RTT on the J-Link and host side. p may be NULL.
+    JLINKARM_RTTERMINAL_CMD_GETDESC = 2,     //!<@brief Get the size, name, and flag of a buffer.
+    JLINKARM_RTTERMINAL_CMD_GETNUMBUF = 3,   //!<@brief After starting RTT, get the current number of up or down buffers.
+    JLINKARM_RTTERMINAL_CMD_GETSTAT = 4,
 };
+
 
 #define JLINKARM_DEV_FAMILY_CM0             //!<@brief Target CPU/MCU is a Cortex-M0 device. TODO 值未知
 #define JLINKARM_DEV_FAMILY_CM1             //!<@brief Target CPU/MCU is a Cortex-M1 device. TODO 值未知
@@ -596,15 +634,17 @@ typedef struct JLINKARM_DEVICE_SELECT_INFO {
     uint32_t CoreIndex;
 } JLINKARM_DEVICE_SELECT_INFO;
 
-
-/** Measured state of pin is low (logical 0). */
-#define JLINKARM_HW_PIN_STATUS_LOW
+enum JLINKARM_HW_PIN_STATUS {
+    /** Measured state of pin is low (logical 0). */
+    JLINKARM_HW_PIN_STATUS_LOW,
 
 /** Measured state of pin is high (logical 1). */
-#define JLINKARM_HW_PIN_STATUS_HIGH
+    JLINKARM_HW_PIN_STATUS_HIGH,
 
 /** Pin state could not be measured. Measuring JTAG pin state is not supported by JLink / J-Trace. */
-#define JLINKARM_HW_PIN_STATUS_UNKNOWN
+    JLINKARM_HW_PIN_STATUS_UNKNOWN,
+};
+
 
 typedef struct JLINKARM_HW_STATUS {
     /** Target supply voltage. */
@@ -678,26 +718,28 @@ typedef struct JLINK_HSS_MEM_BLOCK_DESC {
     uint32_t Dummy;
 } JLINK_HSS_MEM_BLOCK_DESC;
 
-/** Setup the POWERTRACE functionality. */
-#define JLINK_POWERTRACE_CMD_SETUP
+enum JLINK_POWERTRACE_CMD {
+    /** Setup the POWERTRACE functionality. */
+    JLINK_POWERTRACE_CMD_SETUP,
 
 /** Starts capturing measurement data. */
-#define JLINK_POWERTRACE_CMD_START
+    JLINK_POWERTRACE_CMD_START,
 
 /** Flush POWERTRACE data buffer. Any data which has not been read is lost. */
-#define JLINK_POWERTRACE_CMD_FLUSH
+    JLINK_POWERTRACE_CMD_FLUSH,
 
 /** Stops capturing measurement data. */
-#define JLINK_POWERTRACE_CMD_STOP
+    JLINK_POWERTRACE_CMD_STOP,
 
 /** Get POWERTRACE capabilities of the connected emulator. */
-#define JLINK_POWERTRACE_CMD_GET_CAPS
+    JLINK_POWERTRACE_CMD_GET_CAPS,
 
 /** Get capabilities of a specific measurement channel. */
-#define JLINK_POWERTRACE_CMD_GET_CHANNEL_CAPS
+    JLINK_POWERTRACE_CMD_GET_CHANNEL_CAPS,
 
 /** Get the number of POWERTRACE items which are available to read. */
-#define JLINK_POWERTRACE_CMD_GET_NUM_ITEMS
+    JLINK_POWERTRACE_CMD_GET_NUM_ITEMS,
+};
 
 typedef struct JLINK_POWERTRACE_SETUP {
     /**
@@ -773,6 +815,108 @@ typedef struct JLINK_POWERTRACE_DATA_ITEM {
      */
     uint32_t Data;
 } JLINK_POWERTRACE_DATA_ITEM;
+
+enum JLINK_STRACE_CMD {
+    JLINK_STRACE_CMD_SET_TRACE_EVENT = 0,
+    JLINK_STRACE_CMD_CLR_TRACE_EVENT = 1,
+    JLINK_STRACE_CMD_CLR_ALL_TRACE_EVENTS = 2,
+    JLINK_STRACE_CMD_SET_BUFF_SIZE = 3,
+};
+
+/**
+ * TODO 值不确定
+ */
+enum JLINK_STRACE_EVENT_TYPE {
+    /**
+     * Specifies code fetch event, meaning the
+     * trace logic validates the event condition
+     * (see Op ) when an instruction is fetched.
+     */
+    JLINK_STRACE_EVENT_TYPE_CODE_FETCH,
+
+    /**
+     * Specifies code fetch event, meaning the
+     * trace logic validates the event condition
+     * (see Op ) when a data access (read or
+     * write) is made.
+     */
+    JLINK_STRACE_EVENT_TYPE_DATA_ACC,
+
+    /**
+     * Specifies code fetch event, meaning the
+     * trace logic validates the event condition (see Op )
+     * when a data read access is made.
+     */
+    JLINK_STRACE_EVENT_TYPE_DATA_LOAD,
+
+    /**
+     * Specifies code fetch event, meaning the
+     * trace logic validates the event condition
+     * (see Op ) when a data write access is made.
+     */
+    JLINK_STRACE_EVENT_TYPE_DATA_STORE,
+};
+
+enum JLINK_STRACE_OP_TRACE {
+    JLINK_STRACE_OP_TRACE_START,
+    JLINK_STRACE_OP_TRACE_STOP,
+    JLINK_STRACE_OP_TRACE_INCLUDE_RANGE,
+    JLINK_STRACE_OP_TRACE_EXCLUDE_RANGE,
+};
+
+typedef struct JLINK_STRACE_EVENT_INFO {
+    uint32_t SizeofStruct;
+
+    /**
+     * Specifies the type of the event. Meaning
+     * when does the trace logic evaluate the
+     * event condition.
+     * @see JLINK_STRACE_EVENT_TYPE
+     */
+    uint8_t Type;
+
+    /**
+     * Specifies the operation (start/stop/include/exclude trace)
+     * @see JLINK_STRACE_OP_TRACE
+     */
+    uint8_t Op;
+
+    /** Used for data access trace events only. */
+    uint8_t AccessSize;
+
+    /** Reserved for future use and to align following elements. */
+    uint8_t Reserved0;
+
+    /**
+     * For data events this specifies the load/
+     * store address of the data.
+     * For code events this specifies the address
+     * of the instruction that is fetched/executed.
+     */
+    uint64_t Addr;
+
+    /**
+     * Specifies the data to be compared to. Used
+     * for types JLINK_STRACE_EVENT_TYPE_DATA_ACC only
+     */
+    uint64_t Data;
+
+    /**
+     * Bits set to 1 are masked out, so not taken
+     * into consideration during comparison.
+     * Used for Types JLINK_STRACE_EVENT_TYPE_DATA_ACC only
+     */
+    uint64_t DataMask;
+
+    /**
+     * Specifies the address range for the event.
+     * Used for operations JLINK_STRACE_OP_TRACE_INCLUDE_RANGE and
+     * JLINK_STRACE_OP_TRACE_EXCLUDE_RANGE
+     * only.
+     * Set to 0 in all other cases.
+     */
+    uint64_t AddrRangeSize;
+} JLINK_STRACE_EVENT_INFO;
 
 #ifdef __cplusplus
 }

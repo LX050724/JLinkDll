@@ -34,35 +34,36 @@ int JLINK_SWD_Init() {
     if (P_JLINKARM_SWD_SyncBytes == NULL) return 0;
     return 1;
 }
-
+//PYTHON CHECK POINT
 uint32_t JLINKARM_SWD_GetU8(int BitPos) {
-    return P_JLINKARM_SWD_GetU8(BitPos);
+    return JLinkDLL_CALLPTR(P_JLINKARM_SWD_GetU8, BitPos);
 }
 
 uint32_t JLINKARM_SWD_GetU16(int BitPos) {
-    return P_JLINKARM_SWD_GetU16(BitPos);
+    return JLinkDLL_CALLPTR(P_JLINKARM_SWD_GetU16, BitPos);
 }
 
 uint32_t JLINKARM_SWD_GetU32(int BitPos) {
-    return P_JLINKARM_SWD_GetU32(BitPos);
+    return JLinkDLL_CALLPTR(P_JLINKARM_SWD_GetU32, BitPos);
 }
 
 void JLINKARM_SWD_GetData(uint8_t *pDest, int BitPos, int NumBits) {
-    P_JLINKARM_SWD_GetData(pDest, BitPos, NumBits);
+    JLinkDLL_CALLPTR(P_JLINKARM_SWD_GetData, pDest, BitPos, NumBits);
 }
 
 void JLINKARM_SWD_StoreRaw(const uint8_t *pDir, const uint8_t *pin, uint32_t NumBits) {
-    P_JLINKARM_SWD_StoreRaw(pDir, pin, NumBits);
+    JLinkDLL_CALLPTR(P_JLINKARM_SWD_StoreRaw, pDir, pin, NumBits);
 }
 
 void JLINKARM_SWD_StoreGetRaw(const uint8_t *pDir, uint8_t *pIn, const uint8_t *pOut, uint32_t NumBits) {
-    P_JLINKARM_SWD_StoreGetRaw(pDir, pIn, pOut, NumBits);
+    JLinkDLL_CALLPTR(P_JLINKARM_SWD_StoreGetRaw, pDir, pIn, pOut, NumBits);
 }
 
 void JLINKARM_SWD_SyncBits(void) {
-    P_JLINKARM_SWD_SyncBits();
+    JLinkDLL_CALLPTR(P_JLINKARM_SWD_SyncBits);
 }
 
 void JLINKARM_SWD_SyncBytes(void) {
-    P_JLINKARM_SWD_SyncBytes();
+    JLinkDLL_CALLPTR(P_JLINKARM_SWD_SyncBytes);
 }
+//PYTHON CHECK POINT

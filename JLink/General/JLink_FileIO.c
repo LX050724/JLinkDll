@@ -21,19 +21,20 @@ int JLINK_GERENAL_FILE_IO_Init() {
     if (P_JLINKARM_EMU_FILE_Write == NULL) return 0;
     return 1;
 }
-
+//PYTHON CHECK POINT
 int JLINKARM_EMU_FILE_Delete(const char *sFile) {
-    return P_JLINKARM_EMU_FILE_Delete(sFile);
+    return JLinkDLL_CALLPTR(P_JLINKARM_EMU_FILE_Delete, sFile);
 }
 
 int JLINKARM_EMU_FILE_GetSize(const char *sFile) {
-    return P_JLINKARM_EMU_FILE_GetSize(sFile);
+    return JLinkDLL_CALLPTR(P_JLINKARM_EMU_FILE_GetSize, sFile);
 }
 
 int JLINKARM_EMU_FILE_Read(const char *sFile, uint8_t *pData, uint32_t Offset, uint32_t NumBytes) {
-    return P_JLINKARM_EMU_FILE_Read(sFile, pData, Offset, NumBytes);
+    return JLinkDLL_CALLPTR(P_JLINKARM_EMU_FILE_Read, sFile, pData, Offset, NumBytes);
 }
 
 int JLINKARM_EMU_FILE_Write(const char *sFile, const uint8_t *pData, uint32_t Offset, uint32_t NumBytes) {
-    return P_JLINKARM_EMU_FILE_Write(sFile, pData, Offset, NumBytes);
+    return JLinkDLL_CALLPTR(P_JLINKARM_EMU_FILE_Write, sFile, pData, Offset, NumBytes);
 }
+//PYTHON CHECK POINT

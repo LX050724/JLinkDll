@@ -18,15 +18,16 @@ int JLINK_RTT_Init() {
     if (P_JLINK_RTTERMINAL_Write == NULL) return 0;
     return 1;
 }
-
+//PYTHON CHECK POINT
 int JLINK_RTTERMINAL_Control(uint32_t Cmd, void *p) {
-    return P_JLINK_RTTERMINAL_Control(Cmd, p);
+    return JLinkDLL_CALLPTR(P_JLINK_RTTERMINAL_Control, Cmd, p);
 }
 
 int JLINK_RTTERMINAL_Read(uint32_t BufferIndex, char *sBuffer, uint32_t BufferSize) {
-    return P_JLINK_RTTERMINAL_Read(BufferIndex, sBuffer, BufferSize);
+    return JLinkDLL_CALLPTR(P_JLINK_RTTERMINAL_Read, BufferIndex, sBuffer, BufferSize);
 }
 
 int JLINK_RTTERMINAL_Write(uint32_t BufferIndex, const char *sBuffer, uint32_t BufferSize) {
-    return P_JLINK_RTTERMINAL_Write(BufferIndex, sBuffer, BufferSize);
+    return JLinkDLL_CALLPTR(P_JLINK_RTTERMINAL_Write, BufferIndex, sBuffer, BufferSize);
 }
+//PYTHON CHECK POINT

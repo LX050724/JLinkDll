@@ -28,28 +28,29 @@ int JLINK_SWO_Init() {
     if (P_JLINKARM_SWO_ReadStimulus == NULL) return 0;
     return 1;
 }
-
+//PYTHON CHECK POINT
 int JLINKARM_SWO_Control(uint32_t Cmd, void *pData) {
-    return P_JLINKARM_SWO_Control(Cmd, pData);
+    return JLinkDLL_CALLPTR(P_JLINKARM_SWO_Control, Cmd, pData);
 }
 
 int JLINKARM_SWO_DisableTarget(uint32_t PortMask) {
-    return P_JLINKARM_SWO_DisableTarget(PortMask);
+    return JLinkDLL_CALLPTR(P_JLINKARM_SWO_DisableTarget, PortMask);
 }
 
 int JLINKARM_SWO_EnableTarget(uint32_t CPUSpeed, uint32_t SWOSpeed, int Mode, uint32_t PortMask) {
-    return P_JLINKARM_SWO_EnableTarget(CPUSpeed, SWOSpeed, Mode, PortMask);
+    return JLinkDLL_CALLPTR(P_JLINKARM_SWO_EnableTarget, CPUSpeed, SWOSpeed, Mode, PortMask);
 }
 
 int JLINKARM_SWO_GetCompatibleSpeeds(uint32_t CPUSpeed, uint32_t MaxSWOSpeed,
                                      uint32_t *paSWOSpeed, uint32_t NumEntries) {
-    return P_JLINKARM_SWO_GetCompatibleSpeeds(CPUSpeed, MaxSWOSpeed, paSWOSpeed, NumEntries);
+    return JLinkDLL_CALLPTR(P_JLINKARM_SWO_GetCompatibleSpeeds, CPUSpeed, MaxSWOSpeed, paSWOSpeed, NumEntries);
 }
 
 void JLINKARM_SWO_Read(uint8_t *pData, uint32_t Offset, uint32_t *pNumBytes) {
-    P_JLINKARM_SWO_Read(pData, Offset, pNumBytes);
+    JLinkDLL_CALLPTR(P_JLINKARM_SWO_Read, pData, Offset, pNumBytes);
 }
 
 void JLINKARM_SWO_ReadStimulus(int Port, uint8_t *pData, uint32_t NumBytes) {
-    P_JLINKARM_SWO_ReadStimulus(Port, pData, NumBytes);
+    JLinkDLL_CALLPTR(P_JLINKARM_SWO_ReadStimulus, Port, pData, NumBytes);
 }
+//PYTHON CHECK POINT

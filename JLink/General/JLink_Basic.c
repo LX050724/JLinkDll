@@ -48,58 +48,58 @@ int JLINK_GERENAL_BASE_Init() {
     if (P_JLINKARM_Unlock == NULL) return 0;
     return 1;
 }
-
+//PYTHON CHECK POINT
 void JLINKARM_Close(void) {
-    P_JLINKARM_Close();
+    JLinkDLL_CALLPTR(P_JLINKARM_Close);
 }
 
 int JLINKARM_Connect(void) {
-    return P_JLINKARM_Connect();
+    return JLinkDLL_CALLPTR(P_JLINKARM_Connect);
 }
 
 void JLINKARM_Go(void) {
-    P_JLINKARM_Go();
+    JLinkDLL_CALLPTR(P_JLINKARM_Go);
 }
 
 void JLINKARM_GoIntDis(void) {
-    P_JLINKARM_GoIntDis();
+    JLinkDLL_CALLPTR(P_JLINKARM_GoIntDis);
 }
 
 char JLINKARM_Halt(void) {
-    return P_JLINKARM_Halt();
+    return JLinkDLL_CALLPTR(P_JLINKARM_Halt);
 }
 
 
 void JLINKARM_GoEx(uint32_t MaxEmulInsts, uint32_t Flags) {
-    P_JLINKARM_GoEx(MaxEmulInsts, Flags);
+    JLinkDLL_CALLPTR(P_JLINKARM_GoEx, MaxEmulInsts, Flags);
 }
 
 
 char JLINKARM_IsConnected(void) {
-    return P_JLINKARM_IsConnected();
+    return JLinkDLL_CALLPTR(P_JLINKARM_IsConnected);
 }
 
 char JLINKARM_IsHalted(void) {
-    return P_JLINKARM_IsHalted();
+    return JLinkDLL_CALLPTR(P_JLINKARM_IsHalted);
 }
 
 char JLINKARM_IsOpen(void) {
-    return P_JLINKARM_IsOpen();
+    return JLinkDLL_CALLPTR(P_JLINKARM_IsOpen);
 }
 
 void JLINKARM_Lock(void) {
-    P_JLINKARM_Lock();
+    JLinkDLL_CALLPTR(P_JLINKARM_Lock);
 }
 
 const char *JLINKARM_Open(void) {
-    return P_JLINKARM_Open();
+    return JLinkDLL_CALLPTR(P_JLINKARM_Open);
 }
 
 const char *JLINKARM_OpenEx(JLINKARM_LOG *pfLog, JLINKARM_LOG *pfErrorOut) {
-    return P_JLINKARM_OpenEx(pfLog, pfErrorOut);
+    return JLinkDLL_CALLPTR(P_JLINKARM_OpenEx, pfLog, pfErrorOut);
 }
 
 void JLINKARM_Unlock(void) {
-    P_JLINKARM_Unlock();
+    JLinkDLL_CALLPTR(P_JLINKARM_Unlock);
 }
-
+//PYTHON CHECK POINT

@@ -77,6 +77,7 @@ static uint32_t (*P_JLINKARM_UpdateFirmwareIfNewer)(void);
 static void (*P_JLINKARM_SetWarnOutHandler)(JLINKARM_LOG *pfWarnOut);
 static void (*P_JLINKARM_WriteBits)(void);
 static uint32_t (*P_JLINKARM_EMU_GetNumDevices)(void);
+void *(*P_JLINK_GetpFunc)(JLINK_FUNC_INDEX FuncIndex);
 
 //static void (*P_JLINKARM_EMU_GetDeviceInfo)(uint32_t iEmu, JLINKARM_EMU_INFO *pInfo);
 
@@ -223,298 +224,302 @@ int JLINK_GERENAL_SystemControl_Init() {
     if (P_JLINKARM_WriteBits == NULL) return 0;
     P_JLINKARM_EMU_GetNumDevices = JLinkDLL_getSym("JLINKARM_EMU_GetNumDevices");
     if (P_JLINKARM_EMU_GetNumDevices == NULL) return 0;
+    P_JLINK_GetpFunc = JLinkDLL_getSym("JLINK_GetpFunc");
+    if (P_JLINK_GetpFunc == NULL) return 0;
 //    P_JLINKARM_EMU_GetDeviceInfo = JLinkDLL_getSym("JLINKARM_EMU_GetDeviceInfo");
 //    if (P_JLINKARM_EMU_GetDeviceInfo == NULL) return 0;
     return 1;
 }
 
 //PYTHON CHECK POINT
-
 uint32_t JLINKARM_GetDLLVersion(void) {
-    return P_JLINKARM_GetDLLVersion();
+    return JLinkDLL_CALLPTR(P_JLINKARM_GetDLLVersion);
 }
 
-
 void JLINKARM_ClrRESET(void) {
-    P_JLINKARM_ClrRESET();
+    JLinkDLL_CALLPTR(P_JLINKARM_ClrRESET);
 }
 
 int JLINKARM_ClrTCK(void) {
-    return P_JLINKARM_ClrTCK();
+    return JLinkDLL_CALLPTR(P_JLINKARM_ClrTCK);
 }
 
 void JLINKARM_ClrTDI(void) {
-    P_JLINKARM_ClrTDI();
+    JLinkDLL_CALLPTR(P_JLINKARM_ClrTDI);
 }
 
 void JLINKARM_ClrTMS(void) {
-    P_JLINKARM_ClrTMS();
+    JLinkDLL_CALLPTR(P_JLINKARM_ClrTMS);
 }
 
 void JLINKARM_ClrTRST(void) {
-    P_JLINKARM_ClrTRST();
+    JLinkDLL_CALLPTR(P_JLINKARM_ClrTRST);
 }
 
 void JLINKARM_ClrError(void) {
-    P_JLINKARM_ClrError();
+    JLinkDLL_CALLPTR(P_JLINKARM_ClrError);
 }
 
-
 void JLINKARM_BeginDownload(uint32_t Flags) {
-    P_JLINKARM_BeginDownload(Flags);
+    JLinkDLL_CALLPTR(P_JLINKARM_BeginDownload, Flags);
 }
 
 uint8_t JLINKARM_Clock(void) {
-    return P_JLINKARM_Clock();
+    return JLinkDLL_CALLPTR(P_JLINKARM_Clock);
 }
 
 int JLINKARM_CORESIGHT_Configure(const char *sConfig) {
-    return P_JLINKARM_CORESIGHT_Configure(sConfig);
+    return JLinkDLL_CALLPTR(P_JLINKARM_CORESIGHT_Configure, sConfig);
 }
 
 int JLINKARM_CORESIGHT_ReadAPDPReg(uint8_t RegIndex, uint8_t APnDP, uint32_t *pData) {
-    return P_JLINKARM_CORESIGHT_ReadAPDPReg(RegIndex, APnDP, pData);
+    return JLinkDLL_CALLPTR(P_JLINKARM_CORESIGHT_ReadAPDPReg, RegIndex, APnDP, pData);
 }
 
 int JLINKARM_CORESIGHT_WriteAPDPReg(uint8_t RegIndex, uint8_t APnDP, uint32_t Data) {
-    return P_JLINKARM_CORESIGHT_WriteAPDPReg(RegIndex, APnDP, Data);
+    return JLinkDLL_CALLPTR(P_JLINKARM_CORESIGHT_WriteAPDPReg, RegIndex, APnDP, Data);
 }
 
 void JLINKARM_Core2CoreName(uint32_t Core, char *pBuffer, unsigned BufferSize) {
-    P_JLINKARM_Core2CoreName(Core, pBuffer, BufferSize);
+    JLinkDLL_CALLPTR(P_JLINKARM_Core2CoreName, Core, pBuffer, BufferSize);
 }
 
 int JLINKARM_CP15_ReadEx(uint8_t CRn, uint8_t CRm, uint8_t op1, uint8_t op2, uint32_t *pData) {
-    return P_JLINKARM_CP15_ReadEx( CRn,  CRm,  op1,  op2, pData);
+    return JLinkDLL_CALLPTR(P_JLINKARM_CP15_ReadEx, CRn, CRm, op1, op2, pData);
 }
 
 int JLINKARM_CP15_WriteEx(uint8_t CRn, uint8_t CRm, uint8_t op1, uint8_t op2, uint32_t Data) {
-    return P_JLINKARM_CP15_WriteEx( CRn,  CRm,  op1,  op2,  Data);
+    return JLinkDLL_CALLPTR(P_JLINKARM_CP15_WriteEx, CRn, CRm, op1, op2, Data);
 }
 
 int JLINKARM_DEVICE_GetIndex(const char *sDeviceName) {
-    return P_JLINKARM_DEVICE_GetIndex(sDeviceName);
+    return JLinkDLL_CALLPTR(P_JLINKARM_DEVICE_GetIndex, sDeviceName);
 }
 
 int JLINKARM_DEVICE_SelectDialog(void *hParent, uint32_t Flags, JLINKARM_DEVICE_SELECT_INFO *pInfo) {
-    return P_JLINKARM_DEVICE_SelectDialog(hParent, Flags, pInfo);
+    return JLinkDLL_CALLPTR(P_JLINKARM_DEVICE_SelectDialog, hParent, Flags, pInfo);
 }
 
 int JLINK_DownloadFile(const char *sFileName, uint32_t Addr) {
-    return P_JLINK_DownloadFile(sFileName, Addr);
+    return JLinkDLL_CALLPTR(P_JLINK_DownloadFile, sFileName, Addr);
 }
 
 int JLINKARM_EMU_COM_Read(unsigned Channel, unsigned NumBytes, void *pData) {
-    return P_JLINKARM_EMU_COM_Read(Channel, NumBytes, pData);
+    return JLinkDLL_CALLPTR(P_JLINKARM_EMU_COM_Read, Channel, NumBytes, pData);
 }
 
 int JLINKARM_EMU_COM_Write(unsigned Channel, unsigned NumBytes, const void *pData) {
-    return P_JLINKARM_EMU_COM_Write(Channel, NumBytes, pData);
+    return JLinkDLL_CALLPTR(P_JLINKARM_EMU_COM_Write, Channel, NumBytes, pData);
 }
 
 int JLINKARM_EMU_COM_IsSupported(void) {
-    return P_JLINKARM_EMU_COM_IsSupported();
+    return JLinkDLL_CALLPTR(P_JLINKARM_EMU_COM_IsSupported);
 }
 
 uint32_t JLINKARM_EMU_GetNumDevices(void) {
-    return P_JLINKARM_EMU_GetNumDevices();
+    return JLinkDLL_CALLPTR(P_JLINKARM_EMU_GetNumDevices);
 }
 
 void JLINKARM_EMU_GetProductName(char *pBuffer, uint32_t BufferSize) {
-    P_JLINKARM_EMU_GetProductName(pBuffer, BufferSize);
+    JLinkDLL_CALLPTR(P_JLINKARM_EMU_GetProductName, pBuffer, BufferSize);
 }
 
 int JLINKARM_EMU_HasCapEx(int CapEx) {
-    return P_JLINKARM_EMU_HasCapEx(CapEx);
+    return JLinkDLL_CALLPTR(P_JLINKARM_EMU_HasCapEx, CapEx);
 }
 
 int JLINKARM_EMU_HasCPUCap(uint32_t CPUCap) {
-    return P_JLINKARM_EMU_HasCPUCap(CPUCap);
+    return JLinkDLL_CALLPTR(P_JLINKARM_EMU_HasCPUCap, CPUCap);
 }
 
 char JLINKARM_EMU_IsConnected(void) {
-    return P_JLINKARM_EMU_IsConnected();
+    return JLinkDLL_CALLPTR(P_JLINKARM_EMU_IsConnected);
 }
 
 void JLINKARM_EnableLog(JLINKARM_LOG *pfLog) {
-    P_JLINKARM_EnableLog(pfLog);
+    JLinkDLL_CALLPTR(P_JLINKARM_EnableLog, pfLog);
 }
 
 void JLINKARM_EnableLogCom(JLINKARM_LOG *pfLog) {
-    P_JLINKARM_EnableLogCom(pfLog);
+    JLinkDLL_CALLPTR(P_JLINKARM_EnableLogCom, pfLog);
 }
 
 int JLINKARM_EndDownload(void) {
-    return P_JLINKARM_EndDownload();
+    return JLinkDLL_CALLPTR(P_JLINKARM_EndDownload);
 }
 
 int JLINK_EraseChip(void) {
-    return P_JLINK_EraseChip();
+    return JLinkDLL_CALLPTR(P_JLINK_EraseChip);
 }
 
 const char *JLINKARM_GetCompileDateTime(void) {
-    return P_JLINKARM_GetCompileDateTime();
+    return JLinkDLL_CALLPTR(P_JLINKARM_GetCompileDateTime);
 }
 
 void JLINKARM_GetConfigData(int *pIRPre, int *pDRPre) {
-    P_JLINKARM_GetConfigData(pIRPre, pDRPre);
+    JLinkDLL_CALLPTR(P_JLINKARM_GetConfigData, pIRPre, pDRPre);
 }
 
 int JLINKARM_GetDebugInfo(uint32_t Index, uint32_t *pInfo) {
-    return P_JLINKARM_GetDebugInfo(Index, pInfo);
+    return JLinkDLL_CALLPTR(P_JLINKARM_GetDebugInfo, Index, pInfo);
 }
 
 int JLINKARM_GetDeviceFamily(void) {
-    return P_JLINKARM_GetDeviceFamily();
+    return JLinkDLL_CALLPTR(P_JLINKARM_GetDeviceFamily);
 }
 
 uint32_t JLINKARM_GetEmuCaps(void) {
-    return P_JLINKARM_GetEmuCaps();
+    return JLinkDLL_CALLPTR(P_JLINKARM_GetEmuCaps);
 }
 
 void JLINKARM_GetEmuCapsEx(uint8_t *pCaps, int BufferSize) {
-    P_JLINKARM_GetEmuCapsEx(pCaps, BufferSize);
+    JLinkDLL_CALLPTR(P_JLINKARM_GetEmuCapsEx, pCaps, BufferSize);
 }
 
 void JLINKARM_GetFeatureString(char *pOut) {
-    P_JLINKARM_GetFeatureString(pOut);
+    JLinkDLL_CALLPTR(P_JLINKARM_GetFeatureString, pOut);
 }
 
 void JLINKARM_GetFirmwareString(char *s, int BufferSize) {
-    P_JLINKARM_GetFirmwareString(s, BufferSize);
+    JLinkDLL_CALLPTR(P_JLINKARM_GetFirmwareString, s, BufferSize);
 }
 
 int JLINKARM_GetHWInfo(uint32_t BitMask, uint32_t *pHWInfo) {
-    return P_JLINKARM_GetHWInfo(BitMask, pHWInfo);
+    return JLinkDLL_CALLPTR(P_JLINKARM_GetHWInfo, BitMask, pHWInfo);
 }
 
 int JLINKARM_GetHWStatus(JLINKARM_HW_STATUS *pStat) {
-    return P_JLINKARM_GetHWStatus(pStat);
+    return JLinkDLL_CALLPTR(P_JLINKARM_GetHWStatus, pStat);
 }
 
 int JLINKARM_GetHardwareVersion(void) {
-    return P_JLINKARM_GetHardwareVersion();
+    return JLinkDLL_CALLPTR(P_JLINKARM_GetHardwareVersion);
 }
 
 void JLINKARM_GetIdData(JTAG_ID_DATA *pIdData) {
-    P_JLINKARM_GetIdData(pIdData);
+    JLinkDLL_CALLPTR(P_JLINKARM_GetIdData, pIdData);
 }
 
 int JLINKARM_GetMOEs(JLINKARM_MOE_INFO *pInfo, int MaxNumMOEs) {
-    return P_JLINKARM_GetMOEs(pInfo, MaxNumMOEs);
+    return JLinkDLL_CALLPTR(P_JLINKARM_GetMOEs, pInfo, MaxNumMOEs);
 }
 
 char JLINKARM_GetOEMString(char *pOut) {
-    return P_JLINKARM_GetOEMString(pOut);
+    return JLinkDLL_CALLPTR(P_JLINKARM_GetOEMString, pOut);
 }
 
 int JLINKARM_GetScanLen(void) {
-    return P_JLINKARM_GetScanLen();
+    return JLinkDLL_CALLPTR(P_JLINKARM_GetScanLen);
 }
 
 uint16_t JLINKARM_GetSelDevice(void) {
-    return P_JLINKARM_GetSelDevice();
+    return JLinkDLL_CALLPTR(P_JLINKARM_GetSelDevice);
 }
 
 int JLINKARM_GetSN(void) {
-    return P_JLINKARM_GetSN();
+    return JLinkDLL_CALLPTR(P_JLINKARM_GetSN);
 }
 
 uint16_t JLINKARM_GetSpeed(void) {
-    return P_JLINKARM_GetSpeed();
+    return JLinkDLL_CALLPTR(P_JLINKARM_GetSpeed);
 }
 
 void JLINKARM_GetSpeedInfo(JLINKARM_SPEED_INFO *pSpeedInfo) {
-    P_JLINKARM_GetSpeedInfo(pSpeedInfo);
+    JLinkDLL_CALLPTR(P_JLINKARM_GetSpeedInfo, pSpeedInfo);
 }
 
 char JLINKARM_HasError(void) {
-    return P_JLINKARM_HasError();
+    return JLinkDLL_CALLPTR(P_JLINKARM_HasError);
 }
 
 int JLINKARM_MeasureCPUSpeed(uint32_t RAMAddr, int PreserveMem) {
-    return P_JLINKARM_MeasureCPUSpeed(RAMAddr, PreserveMem);
+    return JLinkDLL_CALLPTR(P_JLINKARM_MeasureCPUSpeed, RAMAddr, PreserveMem);
 }
 
 int JLINKARM_MeasureCPUSpeedEx(uint32_t RAMAddr, int PreserveMem, int AllowFail) {
-    return P_JLINKARM_MeasureCPUSpeedEx(RAMAddr, PreserveMem, AllowFail);
+    return JLinkDLL_CALLPTR(P_JLINKARM_MeasureCPUSpeedEx, RAMAddr, PreserveMem, AllowFail);
 }
 
 int JLINKARM_MeasureSCLen(int ScanChain) {
-    return P_JLINKARM_MeasureSCLen(ScanChain);
+    return JLinkDLL_CALLPTR(P_JLINKARM_MeasureSCLen, ScanChain);
 }
 
 void JLINKARM_SelDevice(uint16_t DeviceIndex) {
-    P_JLINKARM_SelDevice(DeviceIndex);
+    JLinkDLL_CALLPTR(P_JLINKARM_SelDevice, DeviceIndex);
 }
 
 void JLINKARM_SelectTraceSource(int Source) {
-    P_JLINKARM_SelectTraceSource(Source);
+    JLinkDLL_CALLPTR(P_JLINKARM_SelectTraceSource, Source);
 }
 
 int JLINKARM_SetEndian(int v) {
-    return P_JLINKARM_SetEndian(v);
+    return JLinkDLL_CALLPTR(P_JLINKARM_SetEndian, v);
 }
 
 void JLINKARM_SetErrorOutHandler(JLINKARM_LOG *pfErrorOut) {
-    P_JLINKARM_SetErrorOutHandler(pfErrorOut);
+    JLinkDLL_CALLPTR(P_JLINKARM_SetErrorOutHandler, pfErrorOut);
 }
 
 void JLINKARM_SetLogFile(const char *sFilename) {
-    P_JLINKARM_SetLogFile(sFilename);
+    JLinkDLL_CALLPTR(P_JLINKARM_SetLogFile, sFilename);
 }
 
 void JLINKARM_SetMaxSpeed(void) {
-    P_JLINKARM_SetMaxSpeed();
+    JLinkDLL_CALLPTR(P_JLINKARM_SetMaxSpeed);
 }
 
 void JLINKARM_SetRESET(void) {
-    P_JLINKARM_SetRESET();
+    JLinkDLL_CALLPTR(P_JLINKARM_SetRESET);
 }
 
 void JLINKARM_SetSpeed(uint32_t Speed) {
-    P_JLINKARM_SetSpeed(Speed);
+    JLinkDLL_CALLPTR(P_JLINKARM_SetSpeed, Speed);
 }
 
 int JLINKARM_SetTCK(void) {
-    return P_JLINKARM_SetTCK();
+    return JLinkDLL_CALLPTR(P_JLINKARM_SetTCK);
 }
 
 void JLINKARM_SetTDI(void) {
-    P_JLINKARM_SetTDI();
+    JLinkDLL_CALLPTR(P_JLINKARM_SetTDI);
 }
 
 void JLINKARM_SetTMS(void) {
-    P_JLINKARM_SetTMS();
+    JLinkDLL_CALLPTR(P_JLINKARM_SetTMS);
 }
 
 void JLINKARM_SetTRST(void) {
-    P_JLINKARM_SetTRST();
+    JLinkDLL_CALLPTR(P_JLINKARM_SetTRST);
 }
 
 void JLINKARM_StoreBits(uint32_t TMS, uint32_t TDI, int NumBits) {
-    P_JLINKARM_StoreBits(TMS, TDI, NumBits);
+    JLinkDLL_CALLPTR(P_JLINKARM_StoreBits, TMS, TDI, NumBits);
 }
 
 void JLINKARM_TIF_GetAvailable(uint32_t *pMask) {
-    P_JLINKARM_TIF_GetAvailable(pMask);
+    JLinkDLL_CALLPTR(P_JLINKARM_TIF_GetAvailable, pMask);
 }
 
 int JLINKARM_TIF_Select(int Interface) {
-    return P_JLINKARM_TIF_Select(Interface);
+    return JLinkDLL_CALLPTR(P_JLINKARM_TIF_Select, Interface);
 }
 
 uint32_t JLINKARM_UpdateFirmwareIfNewer(void) {
-    return P_JLINKARM_UpdateFirmwareIfNewer();
+    return JLinkDLL_CALLPTR(P_JLINKARM_UpdateFirmwareIfNewer);
 }
 
 void JLINKARM_SetWarnOutHandler(JLINKARM_LOG *pfWarnOut) {
-    P_JLINKARM_SetWarnOutHandler(pfWarnOut);
+    JLinkDLL_CALLPTR(P_JLINKARM_SetWarnOutHandler, pfWarnOut);
 }
 
 void JLINKARM_WriteBits(void) {
-    P_JLINKARM_WriteBits();
+    JLinkDLL_CALLPTR(P_JLINKARM_WriteBits);
 }
+
+void *JLINK_GetpFunc(JLINK_FUNC_INDEX FuncIndex) {
+    return JLinkDLL_CALLPTR(P_JLINK_GetpFunc, FuncIndex);
+}
+//PYTHON CHECK POINT
 
 //void JLINKARM_EMU_GetDeviceInfo(uint32_t iEmu, JLINKARM_EMU_INFO *pInfo) {
 //    P_JLINKARM_EMU_GetDeviceInfo(iEmu, pInfo);
