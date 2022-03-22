@@ -46,13 +46,6 @@ int JLINKARM_Connect(void);
 void JLINKARM_Go(void);
 
 /**
- * When this flag is set and the current instruction is breakpointed, JLINKARM_GoEx() oversteps the breakpoint automatically
- * TODO
- * @bug 值不确定
- */
-#define JLINKARM_GO_OVERSTEP_BP 1
-
-/**
  * This function restarts the CPU core, but in addition to JLINKARM_Go() it allows to define a
  * maximum number of instructions which can be simulated/emulated. This especially takes
  * advantage when the program is located in flash and flash breakpoints are used. Simulating

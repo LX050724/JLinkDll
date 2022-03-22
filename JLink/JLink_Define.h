@@ -93,16 +93,28 @@ typedef void (*JLINKARM_LOG)(const char *sError);
 #define JLINK_CORE_CIP51 (0x1200FFFFU)
 /** @} */
 
-#define JLINKARM_ERR_EMU_NO_CONNECTION         //!<@brief TODO 值未知
-#define JLINKARM_ERR_EMU_COMM_ERROR            //!<@brief TODO 值未知
-#define JLINKARM_ERR_DLL_NOT_OPEN              //!<@brief TODO 值未知
-#define JLINKARM_ERR_VCC_FAILURE               //!<@brief TODO 值未知
-#define JLINK_ERR_INVALID_HANDLE               //!<@brief TODO 值未知
-#define JLINK_ERR_NO_CPU_FOUND                 //!<@brief TODO 值未知
-#define JLINK_ERR_EMU_FEATURE_NOT_SUPPORTED    //!<@brief TODO 值未知
-#define JLINK_ERR_EMU_NO_MEMORY                //!<@brief TODO 值未知
-#define JLINK_ERR_TIF_STATUS_ERROR             //!<@brief TODO 值未知
+#define JLINKARM_ERR_EMU_NO_CONNECTION           (-256)
+#define JLINKARM_ERR_EMU_COMM_ERROR              (-257)
+#define JLINKARM_ERR_DLL_NOT_OPEN                (-258)
+#define JLINKARM_ERR_VCC_FAILURE                 (-259)
+#define JLINK_ERR_INVALID_HANDLE                 (-260)
+#define JLINK_ERR_NO_CPU_FOUND                   (-261)
+#define JLINK_ERR_EMU_FEATURE_NOT_SUPPORTED      (-262)
+#define JLINK_ERR_EMU_NO_MEMORY                  (-263)
+#define JLINK_ERR_TIF_STATUS_ERROR               (-264)
 
+#define JLINK_ERR_FLASH_PROG_COMPARE_FAILED      (-265)     //!<@brief Programmed data differs from source data.
+#define JLINK_ERR_FLASH_PROG_PROGRAM_FAILED      (-266)     //!<@brief Programming error occurred.
+#define JLINK_ERR_FLASH_PROG_VERIFY_FAILED       (-267)     //!<@brief Error while verifying programmed data.
+#define JLINK_ERR_OPEN_FILE_FAILED               (-268)     //!<@brief Specified file could not be opened.
+#define JLINK_ERR_UNKNOWN_FILE_FORMAT            (-269)     //!<@brief File format of selected file is not supported.
+#define JLINK_ERR_WRITE_TARGET_MEMORY_FAILED     (-270)     //!<@brief Could not write target memory.
+
+/**
+ * When this flag is set and the current instruction is breakpointed, JLINKARM_GoEx() oversteps the breakpoint automatically
+ * @bug TODO 值不确定
+ */
+#define JLINKARM_GO_OVERSTEP_BP 1
 
 typedef struct AREA_INFO {
     uint32_t Addr;
@@ -129,43 +141,40 @@ typedef struct {
     uint32_t Core;                  //!<@brief CPU core. (See JLINKARM_Const.h for a list of all core-defines e.g. {@link JLINK_CORE_CORTEX_M3})
 } JLINKARM_DEVICE_INFO;
 
-/**
- * TODO 类型不确定
- */
 typedef struct JLINKARM_DATA_EVENT {
-    uint32_t SizeOfStruct;
-    uint32_t Type;
+    int SizeOfStruct;
+    int Type;
     uint32_t Addr;
     uint32_t AddrMask;
     uint32_t Data;
     uint32_t DataMask;
-    uint32_t Access;
-    uint32_t AccessMask;
+    uint8_t Access;
+    uint8_t AccessMask;
 } JLINKARM_DATA_EVENT;
 
+#define JLINK_EVENT_DATA_BP_DIR_RD      (0 << 0)
+#define JLINK_EVENT_DATA_BP_DIR_WR      (1 << 0)
+#define JLINK_EVENT_DATA_BP_PRIV        (1 << 4)
+#define JLINK_EVENT_DATA_BP_SIZE_8BIT   (0 << 1)
+#define JLINK_EVENT_DATA_BP_SIZE_16BIT  (1 << 1)
+#define JLINK_EVENT_DATA_BP_SIZE_32BIT  (2 << 1)
 
-#define JLINK_EVENT_DATA_BP_SIZE_8BIT  //!<@brief TODO 值未知
-#define JLINK_EVENT_DATA_BP_SIZE_16BIT //!<@brief TODO 值未知
-#define JLINK_EVENT_DATA_BP_SIZE_32BIT //!<@brief TODO 值未知
-#define JLINK_EVENT_DATA_BP_DIR_WR     //!<@brief TODO 值未知
-#define JLINK_EVENT_DATA_BP_DIR_RD     //!<@brief TODO 值未知
-#define JLINK_EVENT_DATA_BP_PRIV       //!<@brief TODO 值未知
+#define JLINK_EVENT_DATA_BP_MASK_SIZE   (3 << 1)
+#define JLINK_EVENT_DATA_BP_MASK_DIR    (1 << 0)
+#define JLINK_EVENT_DATA_BP_MASK_PRIV   (1 << 4)
 
-#define JLINK_EVENT_DATA_BP_MASK_SIZE  //!<@brief TODO 值未知
-#define JLINK_EVENT_DATA_BP_MASK_DIR   //!<@brief TODO 值未知
-#define JLINK_EVENT_DATA_BP_MASK_PRIV  //!<@brief TODO 值未知
-#define JLINKARM_EVENT_TYPE_DATA_BP    //!<@brief TODO 值未知
+#define JLINKARM_EVENT_TYPE_DATA_BP   (2)  //!<@bug TODO 不确定
 
-#define JLINKARM_EVENT_ERR_UNKNOWN                 //!<@brief TODO 值未知
-#define JLINKARM_EVENT_ERR_NO_MORE_EVENTS          //!<@brief TODO 值未知
-#define JLINKARM_EVENT_ERR_NO_MORE_ADDR_COMP       //!<@brief TODO 值未知
-#define JLINKARM_EVENT_ERR_NO_MORE_DATA_COMP       //!<@brief TODO 值未知
-#define JLINKARM_EVENT_ERR_INVALID_ADDR_MASK       //!<@brief TODO 值未知
-#define JLINKARM_EVENT_ERR_INVALID_DATA_MASK       //!<@brief TODO 值未知
-#define JLINKARM_EVENT_ERR_INVALID_ACCESS_MASK     //!<@brief TODO 值未知
+#define JLINKARM_EVENT_ERR_UNKNOWN              (0x80000000)
+#define JLINKARM_EVENT_ERR_NO_MORE_EVENTS       (0x80000001)
+#define JLINKARM_EVENT_ERR_NO_MORE_ADDR_COMP    (0x80000002)
+#define JLINKARM_EVENT_ERR_NO_MORE_DATA_COMP    (0x80000004)
+#define JLINKARM_EVENT_ERR_INVALID_ADDR_MASK    (0x80000020)
+#define JLINKARM_EVENT_ERR_INVALID_DATA_MASK    (0x80000040)
+#define JLINKARM_EVENT_ERR_INVALID_ACCESS_MASK  (0x80000080)
 
 /**
- * TODO 值未知
+ * @bug TODO 值未知
  */
 typedef enum {
     ARM_REG_R0,
@@ -284,40 +293,34 @@ typedef struct JLINKARM_WP_INFO {
     uint8_t WPUnit;         //!<@brief Describes the watchpoint index.
 } JLINKARM_WP_INFO;
 
-/**
- * TODO 值未知
- */
 typedef enum JLINKARM_BP_TYPE {
 
     /** Specifies a breakpoint in ARM mode. (Can not be used with JLINKARM_BP_TYPE_THUMB). */
-    JLINKARM_BP_TYPE_ARM,
+    JLINKARM_BP_TYPE_ARM = 1,
 
     /** Specifies a breakpoint in THUMB mode. (Can not be used with JLINKARM_BP_TYPE_ARM). */
-    JLINKARM_BP_TYPE_THUMB,
+    JLINKARM_BP_TYPE_THUMB = 2,
 
     /**
      * Allows any type of implementation, software or any hardware unit.
      * This is the same as specifying JLINKARM_BP_IMP_SW | JLINKARM_BP_IMP_HW and is
      * also default if no Implementation flag is given.
      */
-    JLINKARM_BP_IMP_ANY,
+    JLINKARM_BP_IMP_ANY = -16,
 
     /** Allows implementation as software breakpoint if the address is located in RAM or Flash. */
-    JLINKARM_BP_IMP_SW,
+    JLINKARM_BP_IMP_SW = 240,
 
     /** Allows implementation as software breakpoint if the address is located in RAM. */
-    JLINKARM_BP_IMP_SW_RAM,
+    JLINKARM_BP_IMP_SW_RAM = 16,
 
     /** Allows implementation as software breakpoint if the address is located in Flash. */
-    JLINKARM_BP_IMP_SW_FLASH,
+    JLINKARM_BP_IMP_SW_FLASH = 32,
 
     /** Allows using of any hardware breakpoint unit. */
-    JLINKARM_BP_IMP_HW,
+    JLINKARM_BP_IMP_HW = -256,
 } JLINKARM_BP_TYPE;
 
-/**
- * TODO 值未知
- */
 enum {
     JLINKARM_HALT_REASON_DBGRQ,              //!<@brief CPU has been halted because DBGRQ signal has been asserted.
     JLINKARM_HALT_REASON_CODE_BREAKPOINT,    //!<@brief CPU has been halted because of code breakpoint match.
@@ -439,7 +442,7 @@ typedef struct JLINK_MEM_ZONE_INFO {
  * information about the different reset
  * strategies. Default value is JLINKARM_CM3_RESET_TYPE_NORMAL.
  *
- * @bug TODO 值不确定
+ * @bug TODO JLINKARM_RESET_TYPE的值不确定，JLINKARM_CM3_RESET_TYPE已经确定
  */
 typedef enum {
     // ARM7/ ARM9
@@ -453,16 +456,17 @@ typedef enum {
     JLINKARM_RESET_TYPE_SAM7,
 
     // Cortex-M specifics
-    JLINKARM_CM3_RESET_TYPE_NORMAL,
-    JLINKARM_CM3_RESET_TYPE_CORE,
-    JLINKARM_CM3_RESET_TYPE_RESETPIN,
-    JLINKARM_CM3_RESET_TYPE_CONNECT_UNDER_RESET,
-    JLINKARM_CM3_RESET_TYPE_HALT_AFTER_BTL,
-    JLINKARM_CM3_RESET_TYPE_HALT_BEFORE_BTL,
-    JLINKARM_CM3_RESET_TYPE_KINETIS,
-    JLINKARM_CM3_RESET_TYPE_ADI_HALT_AFTER_KERNEL,
-    JLINKARM_CM3_RESET_TYPE_LPC1200,
-    JLINKARM_CM3_RESET_TYPE_S3FN60D,
+    JLINKARM_CM3_RESET_TYPE_NORMAL = 0,
+    JLINKARM_CM3_RESET_TYPE_CORE = 1,
+    JLINKARM_CM3_RESET_TYPE_RESETPIN = 2,
+    JLINKARM_CM3_RESET_TYPE_CONNECT_UNDER_RESET = 3,
+    JLINKARM_CM3_RESET_TYPE_HALT_AFTER_BTL = 4,
+    JLINKARM_CM3_RESET_TYPE_HALT_BEFORE_BTL = 5,
+    JLINKARM_CM3_RESET_TYPE_KINETIS = 6,
+    JLINKARM_CM3_RESET_TYPE_ADI_HALT_AFTER_KERNEL = 7,
+    JLINKARM_CM3_RESET_TYPE_CORE_AND_PERIPHERALS = 8,
+    JLINKARM_CM3_RESET_TYPE_LPC1200 = 9,
+    JLINKARM_CM3_RESET_TYPE_S3FN60D = 10,
 } JLINKARM_RESET_TYPE;
 
 typedef struct JLINKARM_JTAG_DEVICE_CONF {
@@ -529,8 +533,10 @@ typedef struct JLINKARM_SWO_SPEED_INFO {
     uint32_t MaxPrescale;
 } JLINKARM_SWO_SPEED_INFO;
 
-#define JLINKARM_SWO_IF_UART //!<@brief Selects UART encoding. TODO 值未知
-
+enum JLINKARM_SWO_IF {
+    JLINKARM_SWO_IF_UART = 0,       //!<@brief Selects UART encoding.
+    JLINKARM_SWO_IF_MANCHESTER = 1, //!<@warning DO NOT USE
+};
 
 enum JLINKARM_SWO_CMD {
     /**
@@ -614,17 +620,18 @@ enum JLINKARM_RTTERMINAL_CMD {
     JLINKARM_RTTERMINAL_CMD_GETSTAT = 4,
 };
 
-
-#define JLINKARM_DEV_FAMILY_CM0             //!<@brief Target CPU/MCU is a Cortex-M0 device. TODO 值未知
-#define JLINKARM_DEV_FAMILY_CM1             //!<@brief Target CPU/MCU is a Cortex-M1 device. TODO 值未知
-#define JLINKARM_DEV_FAMILY_CM3             //!<@brief Target CPU/MCU is a Cortex-M3 device. TODO 值未知
-#define JLINKARM_DEV_FAMILY_CORTEX_R4       //!<@brief Target CPU/MCU is an Cortex-R4 core. TODO 值未知
-#define JLINKARM_DEV_FAMILY_SIM             //!<@brief Target CPU/MCU simulator. TODO 值未知
-#define JLINKARM_DEV_FAMILY_XSCALE          //!<@brief Target CPU/MCU is a XScale device. TODO 值未知
-#define JLINKARM_DEV_FAMILY_ARM7            //!<@brief Target CPU/MCU is an ARM7 device. TODO 值未知
-#define JLINKARM_DEV_FAMILY_ARM9            //!<@brief Target CPU/MCU is a ARM9 device. TODO 值未知
-#define JLINKARM_DEV_FAMILY_ARM10           //!<@brief Target CPU/MCU is a ARM10 device. TODO 值未知
-#define JLINKARM_DEV_FAMILY_ARM11           //!<@brief Target CPU/MCU is an ARM11 core. TODO 值未知
+enum JLINKARM_DEV_FAMILY {
+    JLINKARM_DEV_FAMILY_CM0 = 6,             //!<@brief Target CPU/MCU is a Cortex-M0 device.
+    JLINKARM_DEV_FAMILY_CM1 = 1,             //!<@brief Target CPU/MCU is a Cortex-M1 device.
+    JLINKARM_DEV_FAMILY_CM3 = 3,             //!<@brief Target CPU/MCU is a Cortex-M3 device.
+    JLINKARM_DEV_FAMILY_CORTEX_R4 = 12,      //!<@brief Target CPU/MCU is an Cortex-R4 core.
+    JLINKARM_DEV_FAMILY_SIM = 4,             //!<@brief Target CPU/MCU simulator.
+    JLINKARM_DEV_FAMILY_XSCALE = 5,          //!<@brief Target CPU/MCU is a XScale device.
+    JLINKARM_DEV_FAMILY_ARM7 = 7,            //!<@brief Target CPU/MCU is an ARM7 device.
+    JLINKARM_DEV_FAMILY_ARM9 = 9,            //!<@brief Target CPU/MCU is a ARM9 device.
+    JLINKARM_DEV_FAMILY_ARM10 = 10,          //!<@brief Target CPU/MCU is a ARM10 device.
+    JLINKARM_DEV_FAMILY_ARM11 = 11,          //!<@brief Target CPU/MCU is an ARM11 core.
+};
 
 typedef struct JLINKARM_DEVICE_SELECT_INFO {
     /** Size of this structure. This element has to be filled in before calling the API function. */
@@ -636,13 +643,13 @@ typedef struct JLINKARM_DEVICE_SELECT_INFO {
 
 enum JLINKARM_HW_PIN_STATUS {
     /** Measured state of pin is low (logical 0). */
-    JLINKARM_HW_PIN_STATUS_LOW,
+    JLINKARM_HW_PIN_STATUS_LOW = 0,
 
 /** Measured state of pin is high (logical 1). */
-    JLINKARM_HW_PIN_STATUS_HIGH,
+    JLINKARM_HW_PIN_STATUS_HIGH = 1,
 
 /** Pin state could not be measured. Measuring JTAG pin state is not supported by JLink / J-Trace. */
-    JLINKARM_HW_PIN_STATUS_UNKNOWN,
+    JLINKARM_HW_PIN_STATUS_UNKNOWN = 255,
 };
 
 
@@ -823,9 +830,6 @@ enum JLINK_STRACE_CMD {
     JLINK_STRACE_CMD_SET_BUFF_SIZE = 3,
 };
 
-/**
- * TODO 值不确定
- */
 enum JLINK_STRACE_EVENT_TYPE {
     /**
      * Specifies code fetch event, meaning the

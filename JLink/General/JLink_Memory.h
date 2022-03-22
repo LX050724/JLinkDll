@@ -143,7 +143,7 @@ int JLINKARM_ReadMemU8(uint32_t Addr, uint32_t NumItems, uint8_t *pData, uint8_t
 /**
  * The function reads memory from the target system in units of 16-bits.
  * @param Addr Start address
- * @param NumItems Number of bytes to read //TODO 官方文档对此处的描写可能存在问题，猜测是Number of 16-bit units (half words) to read.
+ * @param NumItems Number of bytes to read @bug 官方文档对此处的描写可能存在问题，猜测是Number of 16-bit units (half words) to read.
  * @param pData Pointer to the memory area where the data should be stored. Make
  *              sure that it points to a valid memory area and that there is sufficient
  *              space for the entire number of 16-bit units.

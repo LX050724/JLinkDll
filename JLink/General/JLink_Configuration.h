@@ -68,8 +68,8 @@ int JLINK_EMU_GetLicenses(char *pBuffer, uint32_t NumBytes);
 
 
 enum {
-    JLINKARM_HOSTIF_USB, //!<@bug TODO 值不确定
-    JLINKARM_HOSTIF_IP,  //!<@bug TODO 值不确定
+    JLINKARM_HOSTIF_USB = 0x01,
+    JLINKARM_HOSTIF_IP = 0x02,
 };
 
 /**
