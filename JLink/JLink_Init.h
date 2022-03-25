@@ -43,6 +43,12 @@ int JLinkDLL_DeInit();
  */
 int JLinkDLL_Error(const char *fun_name, const char *filename, int line);
 
+/**
+ * 设置调试输出，默认关闭
+ * @param enable
+ */
+void JLinkDLL_SetDebugOutput(int enable);
+
 #ifdef __cplusplus
 }
 #endif

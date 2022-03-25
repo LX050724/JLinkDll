@@ -5,3 +5,4 @@
 .idea
 DLL_Exports.txt
 *.dll.*
+/build

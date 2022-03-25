@@ -922,6 +922,15 @@ typedef struct JLINK_STRACE_EVENT_INFO {
     uint64_t AddrRangeSize;
 } JLINK_STRACE_EVENT_INFO;
 
+enum JLINKARM_TIF {
+    JLINKARM_TIF_JTAG = 0,
+    JLINKARM_TIF_SWD = 1,
+    JLINKARM_TIF_FINE = 3,
+    JLINKARM_TIF_ICSP = 4,
+    JLINKARM_TIF_SPI = 5,
+    JLINKARM_TIF_C2 = 6,
+};
+
 #ifdef __cplusplus
 }
 #endif

@@ -128,6 +128,8 @@ void JLINKARM_WriteBits(void);
 uint32_t JLINKARM_EMU_GetNumDevices(void);
 void *JLINK_GetpFunc(JLINK_FUNC_INDEX FuncIndex);
 
+int JLINKARM_ExecCommand(const char* sIn, char* sError, int BufferSize);
+
 // 缺少JLINKARM_RTCK_REACT_INFO定义，无法使用
 //int JLINKARM_MeasureRTCKReactTime(JLINKARM_RTCK_REACT_INFO* pReactInfo);
 

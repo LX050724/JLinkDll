@@ -79,6 +79,7 @@ static void (*P_JLINKARM_WriteBits)(void);
 static uint32_t (*P_JLINKARM_EMU_GetNumDevices)(void);
 void *(*P_JLINK_GetpFunc)(JLINK_FUNC_INDEX FuncIndex);
 
+int (*P_JLINKARM_ExecCommand)(const char* sIn, char* sError, int BufferSize);
 //static void (*P_JLINKARM_EMU_GetDeviceInfo)(uint32_t iEmu, JLINKARM_EMU_INFO *pInfo);
 
 int JLINK_GERENAL_SystemControl_Init() {
@@ -226,6 +227,8 @@ int JLINK_GERENAL_SystemControl_Init() {
     if (P_JLINKARM_EMU_GetNumDevices == NULL) return 0;
     P_JLINK_GetpFunc = JLinkDLL_getSym("JLINK_GetpFunc");
     if (P_JLINK_GetpFunc == NULL) return 0;
+    P_JLINKARM_ExecCommand = JLinkDLL_getSym("JLINKARM_ExecCommand");
+    if (P_JLINKARM_ExecCommand == NULL) return 0;
 //    P_JLINKARM_EMU_GetDeviceInfo = JLinkDLL_getSym("JLINKARM_EMU_GetDeviceInfo");
 //    if (P_JLINKARM_EMU_GetDeviceInfo == NULL) return 0;
     return 1;
@@ -524,3 +527,7 @@ void *JLINK_GetpFunc(JLINK_FUNC_INDEX FuncIndex) {
 //void JLINKARM_EMU_GetDeviceInfo(uint32_t iEmu, JLINKARM_EMU_INFO *pInfo) {
 //    P_JLINKARM_EMU_GetDeviceInfo(iEmu, pInfo);
 //}
+
+int JLINKARM_ExecCommand(const char* sIn, char* sError, int BufferSize) {
+    return JLinkDLL_CALLPTR(P_JLINKARM_ExecCommand, sIn, sError, BufferSize);
+}

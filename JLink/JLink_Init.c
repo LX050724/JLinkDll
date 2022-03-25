@@ -32,20 +32,22 @@
 #endif
 
 
-
 #define INIT_MODULE(MODULE) \
 int JLINK_##MODULE##_Init(); \
 if (!JLINK_##MODULE##_Init()) return 0;
 
 static DL_HANDEL handel;
 static uint32_t fun_num;
+static int dbgOut_enable;
 
 void *JLinkDLL_getSym(const char *sym) {
     void *p = DL_SYM(handel, sym);
     if (p) {
         fun_num++;
-        printf("Loaded '%s' at %p, Relative address %llX\n",
-               sym, p, ((uint64_t) p - (uint64_t) handel));
+        if (dbgOut_enable) {
+            printf("Loaded '%s' at %p, Relative address %llX\n",
+                   sym, p, ((uint64_t) p - (uint64_t) handel));
+        }
     } else {
         printf("Error: load '%s' failed\n", sym);
     }
@@ -59,7 +61,9 @@ int JLinkDLL_Init(const char *dl_path) {
         }
         handel = DL_OPEN(dl_path);
         if (handel == NULL) return 0;
-        printf("Loaded DLL '%s' at %p\n", dl_path, handel);
+        if (dbgOut_enable) {
+            printf("Loaded DLL '%s' at %p\n", dl_path, handel);
+        }
         INIT_MODULE(RTT)
         INIT_MODULE(General)
         INIT_MODULE(JTAG)
@@ -70,7 +74,9 @@ int JLinkDLL_Init(const char *dl_path) {
         INIT_MODULE(POWERTRACE)
         INIT_MODULE(SWD)
     }
-    printf("%d functions are loaded\n", fun_num);
+    if (dbgOut_enable) {
+        printf("%d functions are loaded\n", fun_num);
+    }
     return 1;
 }
 
@@ -88,4 +94,8 @@ int JLinkDLL_Error(const char *fun_name, const char *filename, int line) {
     JLinkDLL_DeInit();
     exit(EXIT_FAILURE);
     return 0;
+}
+
+void JLinkDLL_SetDebugOutput(int enable) {
+    dbgOut_enable = enable;
 }
